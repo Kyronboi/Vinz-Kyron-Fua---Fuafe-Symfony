@@ -6,87 +6,34 @@
 <section class="comments-page-section" style="padding-top: 100px; min-height: 80vh;">
     <div class="container">
         <h1 class="page-title" style="text-align: center; margin-bottom: 20px;">Customer Comments</h1>
+
+        {% for message in app.flashes('success') %}
+            <div style="background-color: rgba(46, 204, 113, 0.2); border: 1px solid #2ecc71; color: #2ecc71; padding: 12px 20px; border-radius: 8px; max-width: 600px; margin: 0 auto 20px; text-align: center;">
+                {{ message }}
+            </div>
+        {% endfor %}
+
         <div style="text-align: center; margin-bottom: 30px;">
-            <a {#href="{{ path('app_comment_add') }}"#} class="btn-auth" onclick="alert('Dli pa maka comments bru')">Add a Comment</a>
+            <a href="{{ path('app_comment_add') }}" class="btn-auth" style="display: inline-block; max-width: 200px; text-decoration: none;">Add a Comment</a>
         </div>
 
         <div class="comments-grid">
-            {# Maria Santos #}
-            <div class="comment-box">
-                <div class="testimonial-avatar"><i class="fas fa-user-circle"></i></div>
-                <h4>Maria Santos</h4>
-                <div class="stars">
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star active"></i>
-                </div>
-                <p>The iced latte is absolutely the best in Dumaguete! Fast delivery and always served cold and fresh.</p>
-                <small style="color: #bbb;">2026-09-01</small>
-            </div>
-
-            {# John Doe #}
-            <div class="comment-box">
-                <div class="testimonial-avatar"><i class="fas fa-user-circle"></i></div>
-                <h4>John Doe</h4>
-                <div class="stars">
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star active"></i>
-                </div>
-                <p>Their Espresso gives the exact kick I need to start my workday. Smooth texture and amazing aroma!</p>
-                <small style="color: #bbb;">2026-09-03</small>
-            </div>
-
-            {# Alex Rivera #}
-            <div class="comment-box">
-                <div class="testimonial-avatar"><i class="fas fa-user-circle"></i></div>
-                <h4>Alex Rivera</h4>
-                <div class="stars">
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star"></i>
-                </div>
-                <p>Rich chocolate combined with bold coffee. The Mocha is definitely my new go-to favorite.</p>
-                <small style="color: #bbb;">2026-09-05</small>
-            </div>
-
-            {# Sarah Lim #}
-            <div class="comment-box">
-                <div class="testimonial-avatar"><i class="fas fa-user-circle"></i></div>
-                <h4>Sarah Lim</h4>
-                <div class="stars">
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star active"></i>
-                    <i class="fas fa-star active"></i>
-                </div>
-                <p>Fast delivery and very friendly staff. The packaging kept everything neatly intact.</p>
-                <small style="color: #bbb;">2026-09-08</small>
-            </div>
-        </div>
-
-        {#<div class="comments-grid">
             {% for comment in comments %}
                 <div class="comment-box">
                     <div class="testimonial-avatar"><i class="fas fa-user-circle"></i></div>
-                    <h4>{{ comment.username }}</h4>
+                    <h4>{{ comment.customer.username }}</h4>
                     <div class="stars">
                         {% for i in 1..5 %}
-                            <i class="fas fa-star {{ i <= (comment.rating|default(5)) ? 'active' : '' }}"></i>
+                            <i class="fas fa-star {{ i <= comment.rating ? 'active' : '' }}"></i>
                         {% endfor %}
                     </div>
                     <p>{{ comment.comment }}</p>
-                    <small style="color: #bbb;">{{ comment.created_at|default('Recent') }}</small>
+                    <small style="color: #bbb;">{{ comment.createdAt|date('Y-m-d') }}</small>
                 </div>
+            {% else %}
+                <p style="text-align: center; color: #ccc; grid-column: 1 / -1;">No comments yet. Be the first to share your thoughts!</p>
             {% endfor %}
-        </div>#}
+        </div>
     </div>
 </section>
 {% endblock %}

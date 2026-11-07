@@ -2,104 +2,30 @@
 
 namespace App\Service;
 
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use App\Entity\Product;
+use App\Entity\ProductSize;
+use App\Repository\ProductRepository;
+use Doctrine\ORM\EntityManagerInterface;
 
 class ProductService
 {
-    private string $filePath;
-
-    /**
-     * @var array<int, array{id: int, name: string, description: string, price: float, image_path: string, stock: int, sizes: array<int, array{name: string, price: float}>}>
-     */
-    private array $defaultProducts = [
-        1 => [
-            'id' => 1,
-            'name' => 'Espresso',
-            'description' => 'Strong, bold, and pure. A classic shot of espresso brewed to perfection.',
-            'price' => 95.00,
-            'image_path' => 'pictures/Asset 1.png',
-            'stock' => 50,
-            'sizes' => [
-                ['name' => 'Small', 'price' => 85.00],
-                ['name' => 'Regular', 'price' => 95.00],
-                ['name' => 'Large', 'price' => 110.00],
-            ],
-        ],
-        2 => [
-            'id' => 2,
-            'name' => 'Mocha',
-            'description' => 'Rich chocolate combined with our signature espresso and steamed velvety milk.',
-            'price' => 120.00,
-            'image_path' => 'pictures/Asset 2.png',
-            'stock' => 50,
-            'sizes' => [
-                ['name' => 'Small', 'price' => 105.00],
-                ['name' => 'Regular', 'price' => 120.00],
-                ['name' => 'Large', 'price' => 135.00],
-            ],
-        ],
-        3 => [
-            'id' => 3,
-            'name' => 'Latte',
-            'description' => 'Smooth milk with a delicate layer of foam and fragrant espresso.',
-            'price' => 110.00,
-            'image_path' => 'pictures/Asset 3.png',
-            'stock' => 50,
-            'sizes' => [
-                ['name' => 'Small', 'price' => 95.00],
-                ['name' => 'Regular', 'price' => 110.00],
-                ['name' => 'Large', 'price' => 125.00],
-            ],
-        ],
-        4 => [
-            'id' => 4,
-            'name' => 'Cappuccino',
-            'description' => 'The perfect balance of espresso, silky steam, and rich micro-foam.',
-            'price' => 115.00,
-            'image_path' => 'pictures/cappuccino.jpg',
-            'stock' => 50,
-            'sizes' => [
-                ['name' => 'Small', 'price' => 100.00],
-                ['name' => 'Regular', 'price' => 115.00],
-                ['name' => 'Large', 'price' => 130.00],
-            ],
-        ],
-    ];
-
     public function __construct(
-        #[Autowire('%kernel.project_dir%')]
-        string $projectDir,
+        private ProductRepository $productRepository,
+        private EntityManagerInterface $entityManager,
     ) {
-        $this->filePath = $projectDir . '/var/products.json';
     }
 
     /**
-     * @return array<int, array{id: int, name: string, description: string, price: float, image_path: string, stock: int, sizes: array<int, array{name: string, price: float}>}>
+     * @return Product[]
      */
     public function getAll(): array
     {
-        if (file_exists($this->filePath)) {
-            $data = json_decode((string)file_get_contents($this->filePath), true);
-            if (is_array($data) && !empty($data)) {
-                $products = [];
-                foreach ($data as $item) {
-                    if (isset($item['id'])) {
-                        $products[(int)$item['id']] = $item;
-                    }
-                }
-                return $products;
-            }
-        }
-
-        // Seed with defaults
-        $this->save($this->defaultProducts);
-        return $this->defaultProducts;
+        return $this->productRepository->findAll();
     }
 
-    public function getById(int $id): ?array
+    public function getById(int $id): ?Product
     {
-        $products = $this->getAll();
-        return $products[$id] ?? null;
+        return $this->productRepository->find($id);
     }
 
     /**
@@ -109,10 +35,10 @@ class ProductService
     {
         $lookup = [];
         foreach ($this->getAll() as $product) {
-            $id = $product['id'];
+            $id = $product->getId();
             $lookup[$id] = [];
-            foreach ($product['sizes'] ?? [] as $size) {
-                $lookup[$id][$size['name']] = (float)$size['price'];
+            foreach ($product->getSizes() as $size) {
+                $lookup[$id][$size->getSizeName()] = (float) $size->getPrice();
             }
         }
         return $lookup;
@@ -127,25 +53,28 @@ class ProductService
         float $regularPrice,
         float $largePrice
     ): int {
-        $products = $this->getAll();
-        $nextId = !empty($products) ? max(array_keys($products)) + 1 : 1;
+        $product = new Product();
+        $product->setName($name);
+        $product->setDescription($description);
+        $product->setPrice((string) $regularPrice);
+        $product->setImagePath($imagePath);
+        $product->setStock(max(0, $stock));
 
-        $products[$nextId] = [
-            'id' => $nextId,
-            'name' => $name,
-            'description' => $description,
-            'price' => $regularPrice,
-            'image_path' => $imagePath,
-            'stock' => max(0, $stock),
-            'sizes' => [
-                ['name' => 'Small', 'price' => $smallPrice],
-                ['name' => 'Regular', 'price' => $regularPrice],
-                ['name' => 'Large', 'price' => $largePrice],
-            ],
-        ];
+        $small = (new ProductSize())->setSizeName('Small')->setPrice((string) $smallPrice);
+        $regular = (new ProductSize())->setSizeName('Regular')->setPrice((string) $regularPrice);
+        $large = (new ProductSize())->setSizeName('Large')->setPrice((string) $largePrice);
 
-        $this->save($products);
-        return $nextId;
+        $product->addSize($small);
+        $product->addSize($regular);
+        $product->addSize($large);
+
+        $this->entityManager->persist($product);
+        $this->entityManager->persist($small);
+        $this->entityManager->persist($regular);
+        $this->entityManager->persist($large);
+        $this->entityManager->flush();
+
+        return (int) $product->getId();
     }
 
     public function updateProduct(
@@ -158,46 +87,48 @@ class ProductService
         float $regularPrice,
         float $largePrice
     ): bool {
-        $products = $this->getAll();
-        if (!isset($products[$id])) {
+        $product = $this->getById($id);
+        if (!$product) {
             return false;
         }
 
-        $products[$id]['name'] = $name !== '' ? $name : $products[$id]['name'];
-        $products[$id]['description'] = $description !== '' ? $description : $products[$id]['description'];
-        $products[$id]['image_path'] = $imagePath !== '' ? $imagePath : $products[$id]['image_path'];
-        $products[$id]['stock'] = max(0, $stock);
-        $products[$id]['price'] = $regularPrice > 0 ? $regularPrice : $products[$id]['price'];
-        $products[$id]['sizes'] = [
-            ['name' => 'Small', 'price' => $smallPrice > 0 ? $smallPrice : ($products[$id]['sizes'][0]['price'] ?? $products[$id]['price'])],
-            ['name' => 'Regular', 'price' => $regularPrice > 0 ? $regularPrice : $products[$id]['price']],
-            ['name' => 'Large', 'price' => $largePrice > 0 ? $largePrice : ($products[$id]['sizes'][2]['price'] ?? $products[$id]['price'])],
-        ];
+        if ($name !== '') {
+            $product->setName($name);
+        }
+        if ($description !== '') {
+            $product->setDescription($description);
+        }
+        if ($imagePath !== '') {
+            $product->setImagePath($imagePath);
+        }
+        $product->setStock(max(0, $stock));
+        if ($regularPrice > 0) {
+            $product->setPrice((string) $regularPrice);
+        }
 
-        $this->save($products);
+        foreach ($product->getSizes() as $size) {
+            if ($size->getSizeName() === 'Small' && $smallPrice > 0) {
+                $size->setPrice((string) $smallPrice);
+            } elseif ($size->getSizeName() === 'Regular' && $regularPrice > 0) {
+                $size->setPrice((string) $regularPrice);
+            } elseif ($size->getSizeName() === 'Large' && $largePrice > 0) {
+                $size->setPrice((string) $largePrice);
+            }
+        }
+
+        $this->entityManager->flush();
         return true;
     }
 
     public function deleteProduct(int $id): bool
     {
-        $products = $this->getAll();
-        if (isset($products[$id])) {
-            unset($products[$id]);
-            $this->save($products);
-            return true;
+        $product = $this->getById($id);
+        if (!$product) {
+            return false;
         }
-        return false;
-    }
 
-    /**
-     * @param array<int, array<string, mixed>> $products
-     */
-    private function save(array $products): void
-    {
-        $dir = dirname($this->filePath);
-        if (!is_dir($dir)) {
-            mkdir($dir, 0777, true);
-        }
-        file_put_contents($this->filePath, json_encode($products, JSON_PRETTY_PRINT));
+        $this->entityManager->remove($product);
+        $this->entityManager->flush();
+        return true;
     }
 }

@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Sign In - Fuafe Coffee Shop{% endblock %}
+
+{% block body %}
+<section class="auth-section" style="padding-top: 100px; min-height: 80vh;">
+    <div class="auth-card">
+        <img src="{{ asset('pictures/B&W logo.svg') }}" alt="Fuafe Logo" class="auth-logo">
+        <h2>Welcome Back</h2>
+        
+        {% for message in app.flashes('success') %}
+            <p style="color: #2ecc71; margin-bottom: 15px;">{{ message }}</p>
+        {% endfor %}
+
+        {% if error %}
+            <p style="color: #ff6b6b; margin-bottom: 15px;">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+        {% endif %}
+
+        <form method="POST" action="{{ path('app_login') }}">
+            <label for="inputEmail">Email</label>
+            <input type="email" value="{{ last_username }}" name="email" id="inputEmail" placeholder="you@example.com" autocomplete="email" required autofocus>
+            
+            <label for="inputPassword">Password</label>
+            <input type="password" name="password" id="inputPassword" placeholder="••••••••" autocomplete="current-password" required>
+            
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+            
+            <button type="submit" class="btn-auth">Log In</button>
+        </form>
+        <p style="margin-top: 15px;">Don't have an account? <a href="{{ path('app_register') }}" style="color: #f8a84a;">Register</a></p>
+    </div>
+</section>
+{% endblock %}

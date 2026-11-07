@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create Account - Fuafe Coffee Shop{% endblock %}
+
+{% block body %}
+<section class="auth-section" style="padding-top: 100px; min-height: 80vh;">
+    <div class="auth-card">
+        <img src="{{ asset('pictures/B&W logo.svg') }}" alt="Fuafe Logo" class="auth-logo">
+        <h2>Create Account</h2>
+
+        {{ form_start(registrationForm, {'attr': {'class': 'auth-form'}}) }}
+            {{ form_errors(registrationForm) }}
+
+            <label for="{{ registrationForm.username.vars.id }}">Username</label>
+            {{ form_widget(registrationForm.username, {'attr': {'placeholder': 'Your name'}}) }}
+            {{ form_errors(registrationForm.username) }}
+
+            <label for="{{ registrationForm.email.vars.id }}">Email</label>
+            {{ form_widget(registrationForm.email, {'attr': {'placeholder': 'you@example.com'}}) }}
+            {{ form_errors(registrationForm.email) }}
+
+            <label for="{{ registrationForm.age.vars.id }}">Age</label>
+            {{ form_widget(registrationForm.age, {'attr': {'placeholder': 'e.g. 21'}}) }}
+            {{ form_errors(registrationForm.age) }}
+
+            <label for="{{ registrationForm.location.vars.id }}">Delivery Location</label>
+            {{ form_widget(registrationForm.location, {'attr': {'placeholder': 'e.g. Dumaguete City'}}) }}
+            {{ form_errors(registrationForm.location) }}
+
+            <label for="{{ registrationForm.plainPassword.vars.id }}">Password</label>
+            {{ form_widget(registrationForm.plainPassword, {'attr': {'placeholder': '••••••••'}}) }}
+            {{ form_errors(registrationForm.plainPassword) }}
+
+            <button type="submit" class="btn-auth">Register</button>
+        {{ form_end(registrationForm) }}
+
+        <p style="margin-top: 15px;">Already have an account? <a href="{{ path('app_login') }}" style="color: #f8a84a;">Log In</a></p>
+    </div>
+</section>
+{% endblock %}

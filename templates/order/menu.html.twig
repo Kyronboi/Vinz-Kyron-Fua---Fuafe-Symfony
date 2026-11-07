@@ -8,101 +8,34 @@
             <h1 class="page-title" style="text-align: center; margin-bottom: 10px;">Our Coffee Menu</h1>
             <p class="page-subtitle" style="text-align: center; margin-bottom: 40px; color: #ddd;">Click a product to see more details.</p>
             
-            <div class="menu-grid"> {# Dummy products, ilisdan ra basta naa nay database #}
-                {# Espresso #}
-                <div class="menu-card-lg">
-                    <a href={#"{{ path('app_product_show', {id: 1}) }}"#} class="card-link" style="text-decoration:none; color:inherit;">
-                        <div class="card-img">
-                            <img src="{{ asset('pictures/Asset 1.png') }}" alt="Espresso">
-                        </div>
-                        <h3>Espresso</h3>
-                        <p>Strong, bold, and pure. A classic shot of espresso brewed to perfection.</p>
-                        <span class="price">₱ {{ 95.00|number_format(2) }}</span>
-                    </a>
-                    <form {#action="{{ path('app_cart_add') }}" method="POST" class="add-cart-form">#}
-                        <input type="hidden" name="product_id" value="1">
-                        <input type="hidden" name="size" value="Regular">
-                        <input type="hidden" name="price" value="95.00">
-                        <button {#type="submit"#} class="btn-add-cart" onclick="alert('Hani pa ko taman sir')">Add to Cart</button>
-                    </form>
+            {% for message in app.flashes('success') %}
+                <div style="background-color: rgba(46, 204, 113, 0.2); border: 1px solid #2ecc71; color: #2ecc71; padding: 12px 20px; border-radius: 8px; max-width: 600px; margin: 0 auto 30px; text-align: center;">
+                    {{ message }}
                 </div>
+            {% endfor %}
 
-                {# Mocha #}
-                <div class="menu-card-lg">
-                    <a href={#"{{ path('app_product_show', {id: 2}) }}"#} class="card-link" style="text-decoration:none; color:inherit;">
-                        <div class="card-img">
-                            <img src="{{ asset('pictures/Asset 2.png') }}" alt="Mocha">
-                        </div>
-                        <h3>Mocha</h3>
-                        <p>Rich chocolate combined with our signature espresso.</p>
-                        <span class="price">₱ {{ 120.00|number_format(2) }}</span>
-                    </a>
-                    <form {#action="{{ path('app_cart_add') }}" method="POST" class="add-cart-form">#}
-                        <input type="hidden" name="product_id" value="2">
-                        <input type="hidden" name="size" value="Regular">
-                        <input type="hidden" name="price" value="120.00">
-                        <button {#type="submit"#} class="btn-add-cart" onclick="alert('Hani pa ko taman sir')">Add to Cart</button>
-                    </form>
-                </div>
-
-                {# Latte #}
-                <div class="menu-card-lg">
-                    <a href={#"{{ path('app_product_show', {id: 3}) }}"#} class="card-link" style="text-decoration:none; color:inherit;">
-                        <div class="card-img">
-                            <img src="{{ asset('pictures/Asset 3.png') }}" alt="Latte">
-                        </div>
-                        <h3>Latte</h3>
-                        <p>Smooth milk with a delicate layer of foam and fragrant espresso.</p>
-                        <span class="price">₱ {{ 110.00|number_format(2) }}</span>
-                    </a>
-                    <form {#action="{{ path('app_cart_add') }}" method="POST" class="add-cart-form">#}
-                        <input type="hidden" name="product_id" value="3">
-                        <input type="hidden" name="size" value="Regular">
-                        <input type="hidden" name="price" value="110.00">
-                        <button {#type="submit"#} class="btn-add-cart" onclick="alert('Hani pa ko taman sir')">Add to Cart</button>
-                    </form>
-                </div>
-
-                {# Cappuccino #}
-                <div class="menu-card-lg">
-                    <a href={#"{{ path('app_product_show', {id: 4}) }}"#} class="card-link" style="text-decoration:none; color:inherit;">
-                        <div class="card-img">
-                            <img src="{{ asset('pictures/cappuccino.jpg') }}" alt="Cappuccino">
-                        </div>
-                        <h3>Cappuccino</h3>
-                        <p>The perfect balance of espresso, silky steam, and rich micro-foam.</p>
-                        <span class="price">₱ {{ 115.00|number_format(2) }}</span>
-                    </a>
-                    <form {#action="{{ path('app_cart_add') }}" method="POST" class="add-cart-form">#}
-                        <input type="hidden" name="product_id" value="4">
-                        <input type="hidden" name="size" value="Regular">
-                        <input type="hidden" name="price" value="115.00">
-                       <button {#type="submit"#} class="btn-add-cart" onclick="alert('Hani pa ko taman sir')">Add to Cart</button>
-                    </form>
-                </div>
-            </div>
-
-
-            {# <div class="menu-grid">
+            <div class="menu-grid">
                 {% for product in products %}
                     <div class="menu-card-lg">
                         <a href="{{ path('app_product_show', {id: product.id}) }}" class="card-link" style="text-decoration:none; color:inherit;">
                             <div class="card-img">
-                                <img src="{{ asset(product.image_path) }}" alt="{{ product.name }}">
+                                <img src="{{ asset(product.imagePath) }}" alt="{{ product.name }}">
                             </div>
                             <h3>{{ product.name }}</h3>
                             <p>{{ product.description }}</p>
                             <span class="price">₱ {{ product.price|number_format(2) }}</span>
                         </a>
-                        <form action="{{ path('app_cart_add') }}" method="POST" class="add-cart-form">
+                        <form action="{{ path('app_cart_add') }}" method="POST" class="add-cart-form" style="padding: 0 20px 20px;">
                             <input type="hidden" name="product_id" value="{{ product.id }}">
                             <input type="hidden" name="size" value="Regular">
                             <input type="hidden" name="price" value="{{ product.price }}">
                             <button type="submit" class="btn-add-cart">Add to Cart</button>
                         </form>
                     </div>
+                {% else %}
+                    <p style="text-align: center; color: #ccc; grid-column: 1 / -1;">No coffee items currently available.</p>
                 {% endfor %}
-            </div> #}
+            </div>
         </div>
     </section>
 {% endblock %}

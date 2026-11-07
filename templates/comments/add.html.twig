@@ -6,24 +6,27 @@
 <section class="auth-section" style="padding-top: 100px; min-height: 80vh;">
     <div class="auth-card">
         <h2>Leave a Review</h2>
-        {% if message is defined and message %}
-            <p style="color: #2ecc71;">{{ message }}</p>
-        {% endif %}
+
+        {% for message in app.flashes('error') %}
+            <p style="color: #ff6b6b; margin-bottom: 15px;">{{ message }}</p>
+        {% endfor %}
+
         <form method="POST" action="{{ path('app_comment_add') }}">
-            <label>Your Rating (1-5 Stars)</label>
-            <div class="star-rating-input" style="display: flex; gap: 10px; margin: 10px 0 20px 0;">
-                <label><input type="radio" name="rating" value="5" checked> 5 ★★★★★</label>
-                <label><input type="radio" name="rating" value="4"> 4 ★★★★</label>
-                <label><input type="radio" name="rating" value="3"> 3 ★★★</label>
-                <label><input type="radio" name="rating" value="2"> 2 ★★</label>
+            <label>Your Rating</label>
+            <div class="star-rating-input" style="display: flex; justify-content: center; gap: 12px; margin: 10px 0 20px 0; flex-wrap: wrap;">
+                <label><input type="radio" name="rating" value="5" checked> 5 ★</label>
+                <label><input type="radio" name="rating" value="4"> 4 ★</label>
+                <label><input type="radio" name="rating" value="3"> 3 ★</label>
+                <label><input type="radio" name="rating" value="2"> 2 ★</label>
                 <label><input type="radio" name="rating" value="1"> 1 ★</label>
             </div>
             
-            <label>Your Review</label>
-            <textarea name="comment" rows="4" style="width: 100%; border-radius: 8px; padding: 10px; margin-bottom: 20px;" placeholder="Share your experience..." required></textarea>
+            <label for="comment">Your Review</label>
+            <textarea id="comment" name="comment" rows="4" style="width: 100%; border-radius: 8px; padding: 10px; margin-bottom: 20px; border: 1px solid #ddd; box-sizing: border-box;" placeholder="Share your experience..." required></textarea>
             
             <button type="submit" class="btn-auth">Post Comment</button>
         </form>
+        <p style="margin-top: 15px;"><a href="{{ path('app_comments') }}" style="color: #f8a84a;">← Back to Comments</a></p>
     </div>
 </section>
 {% endblock %}

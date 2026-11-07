@@ -5,23 +5,27 @@
                 <img src="{{ asset('pictures/cup.png') }}" alt="Logo Icon">
             </div>
         </a>
-        {% if app.session and app.session.get('username') %}
-            <span class="welcome-text">Welcome {{ app.session.get('username') }}!</span>
+        {% if app.user %}
+            <span class="welcome-text">Welcome {{ app.user.username }}!</span>
         {% endif %}
     </div>
     
     <nav class="nav-links">
         <a href="{{ path('app_home') }}" data-target="home">Home</a>
         <a href="{{ path('app_menu') }}">Our Menu</a>
+        <a href="{{ path('app_comments') }}">Reviews</a>
         <a href="{{ path('app_home') }}" data-target="contact">Contact Us</a>
-        <a href="{{ path('app_home') }}" data-target="blog">Blog</a>
     </nav>
     
     <div class="header-actions">
-        {% if app.session and app.session.get('username') %}
+        {% if app.user %}
+            {% set cartCount = 0 %}
+            {% for item in app.user.cartItems %}
+                {% set cartCount = cartCount + item.quantity %}
+            {% endfor %}
             <a href="{{ path('app_cart') }}" class="cart-icon">
                 <i class="fas fa-shopping-cart"></i>
-                <span class="cart-count">{{ cartCount|default(0) }}</span>
+                <span class="cart-count">{{ cartCount }}</span>
             </a>
             <div class="signin-btn">
                 <a href="{{ path('app_logout') }}" class="btn-logout">Sign Out</a>
@@ -29,7 +33,7 @@
         {% else %}
             <a href="{{ path('app_cart') }}" class="cart-icon">
                 <i class="fas fa-shopping-cart"></i>
-                <span class="cart-count">{{ cartCount|default(0) }}</span>
+                <span class="cart-count">0</span>
             </a>
             <div class="signin-btn">
                 <a href="{{ path('app_login') }}" class="btn-signin"><i class="fas fa-user"></i> Sign In</a>

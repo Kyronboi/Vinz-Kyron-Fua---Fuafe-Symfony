@@ -17,45 +17,18 @@
             <div class="hero-right">
                 <div class="menu-cards-container">
                     <div class="carousel-track">
-                        <!-- Espresso Card -->
-                        <div class="menu-card">
-                            <div class="card-img">
-                                <img src="{{ asset('pictures/Asset 1.png') }}" alt="Espresso">
+                        {% for product in products %}
+                            <div class="menu-card">
+                                <div class="card-img">
+                                    <img src="{{ asset(product.imagePath) }}" alt="{{ product.name }}">
+                                </div>
+                                <h3>{{ product.name }}</h3>
+                                <p>{{ product.description }}</p>
+                                <a href="{{ path('app_product_show', {id: product.id}) }}" class="find-more">Find out more <i class="fas fa-arrow-right"></i></a>
                             </div>
-                            <h3>Espresso</h3>
-                            <p>Strong, bold, and pure. A classic shot of espresso.</p>
-                            <a href="{{ path('app_menu') }}" class="find-more">Find out more <i class="fas fa-arrow-right"></i></a>
-                        </div>
-
-                        <!-- Mocha Card -->
-                        <div class="menu-card">
-                            <div class="card-img">
-                                <img src="{{ asset('pictures/Asset 2.png') }}" alt="Mocha">
-                            </div>
-                            <h3>Mocha</h3>
-                            <p>Rich chocolate combined with our signature espresso.</p>
-                            <a href="{{ path('app_menu') }}" class="find-more">Find out more <i class="fas fa-arrow-right"></i></a>
-                        </div>
-
-                        <!-- Latte Card -->
-                        <div class="menu-card">
-                            <div class="card-img">
-                                <img src="{{ asset('pictures/Asset 3.png') }}" alt="Latte">
-                            </div>
-                            <h3>Latte</h3>
-                            <p>Smooth milk with a delicate layer of foam.</p>
-                            <a href="{{ path('app_menu') }}" class="find-more">Find out more <i class="fas fa-arrow-right"></i></a>
-                        </div>
-
-                        <!-- Cappuccino Card -->
-                        <div class="menu-card">
-                            <div class="card-img">
-                                <img src="{{ asset('pictures/cappuccino.jpg') }}" alt="Cappuccino">
-                            </div>
-                            <h3>Cappuccino</h3>
-                            <p>Perfect balance of espresso, steam, and foam.</p>
-                            <a href="{{ path('app_menu') }}" class="find-more">Find out more <i class="fas fa-arrow-right"></i></a>
-                        </div>
+                        {% else %}
+                            <p style="color: #ccc; padding: 20px;">No coffee items currently available.</p>
+                        {% endfor %}
                     </div>
                 </div>
                 
@@ -129,62 +102,20 @@
             
             <div class="testimonials-wrapper" id="commentCarousel">
                 <div class="testimonial-track">
-                    {# Maria Santos #}
-                    <div class="testimonial-card">
-                        <div class="testimonial-avatar"><i class="fas fa-user-circle"></i></div>
-                        <h4>Maria Santos</h4>
-                        <div class="stars">
-                            <i class="fas fa-star active"></i>
-                            <i class="fas fa-star active"></i>
-                            <i class="fas fa-star active"></i>
-                            <i class="fas fa-star active"></i>
-                            <i class="fas fa-star active"></i>
-                        </div>
-                        <p>The iced latte is absolutely the best in Dumaguete! Fast delivery and always served cold and fresh.</p>
-                    </div>
-
-                    {# John Doe #}
-                    <div class="testimonial-card">
-                        <div class="testimonial-avatar"><i class="fas fa-user-circle"></i></div>
-                        <h4>John Doe</h4>
-                        <div class="stars">
-                            <i class="fas fa-star active"></i>
-                            <i class="fas fa-star active"></i>
-                            <i class="fas fa-star active"></i>
-                            <i class="fas fa-star active"></i>
-                            <i class="fas fa-star active"></i>
-                        </div>
-                        <p>Their Espresso gives the exact kick I need to start my workday. Smooth texture and amazing aroma!</p>
-                    </div>
-
-                    {# Alex Rivera #}
-                    <div class="testimonial-card">
-                        <div class="testimonial-avatar"><i class="fas fa-user-circle"></i></div>
-                        <h4>Alex Rivera</h4>
-                        <div class="stars">
-                            <i class="fas fa-star active"></i>
-                            <i class="fas fa-star active"></i>
-                            <i class="fas fa-star active"></i>
-                            <i class="fas fa-star active"></i>
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <p>Rich chocolate combined with bold coffee. The Mocha is definitely my new go-to favorite.</p>
-                    </div>
-
-                    {#{% for comment in comments %}
+                    {% for comment in comments %}
                         <div class="testimonial-card">
                             <div class="testimonial-avatar"><i class="fas fa-user-circle"></i></div>
-                            <h4>{{ comment.username }}</h4>
+                            <h4>{{ comment.customer.username }}</h4>
                             <div class="stars">
                                 {% for i in 1..5 %}
-                                    <i class="fas fa-star {{ i <= (comment.rating|default(5)) ? 'active' : '' }}"></i>
+                                    <i class="fas fa-star {{ i <= comment.rating ? 'active' : '' }}"></i>
                                 {% endfor %}
                             </div>
                             <p>{{ comment.comment }}</p>
                         </div>
-                    {% endfor %}#}
+                    {% endfor %}
                     
-                    <!-- 4th Card: Find More Comments -->
+                    <!-- More Comments Card -->
                     <div class="testimonial-card find-more-card">
                         <div class="testimonial-avatar"><i class="fas fa-comments"></i></div>
                         <h4>More Reviews</h4>
@@ -200,7 +131,7 @@
             </div>
 
             <div class="add-comment">
-                <a {#href="{{ path('app_comment_add') }}"#} class="btn-auth" onclick="alert('Dli pa maka comments bru')">Add a Comment</a>
+                <a href="{{ path('app_comment_add') }}" class="btn-auth">Add a Comment</a>
             </div>
         </div>
     </section>

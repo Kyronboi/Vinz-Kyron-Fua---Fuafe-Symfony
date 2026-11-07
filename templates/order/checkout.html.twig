@@ -7,7 +7,8 @@
     <div class="auth-card checkout-card" style="text-align: center;">
         <i class="fas fa-check-circle" style="font-size: 3rem; color: #2ecc71; margin-bottom: 15px;"></i>
         <h2 style="color: #2ecc71;">Order Placed Successfully!</h2>
-        <p>Thank you for your order! We'll deliver to: <strong>Bajumpandan, Dumaguete</strong></p>
+        <p>Thank you for your order, <strong>{{ customer.username }}</strong>!</p>
+        <p>We'll deliver to: <strong>{{ customer.location }}</strong></p>
         <p>Total Charged: <strong>₱ {{ total|number_format(2) }}</strong></p>
         <a href="{{ path('app_menu') }}" class="btn-auth checkout-btn" style="text-decoration:none; display:inline-block; margin-top:15px;">Continue Shopping</a>
     </div>

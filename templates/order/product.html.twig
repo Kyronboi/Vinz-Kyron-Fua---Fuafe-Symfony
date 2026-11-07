@@ -7,9 +7,15 @@
         <div class="container">
             <a href="{{ path('app_menu') }}" class="back-link" style="color: #fff; text-decoration: none; margin-bottom: 20px; display: inline-block;">← Back to Menu</a>
 
+            {% for message in app.flashes('success') %}
+                <div style="background-color: rgba(46, 204, 113, 0.2); border: 1px solid #2ecc71; color: #2ecc71; padding: 12px 20px; border-radius: 8px; max-width: 900px; margin: 0 auto 20px; text-align: center;">
+                    {{ message }}
+                </div>
+            {% endfor %}
+
             <div class="product-detail-card">
                 <div class="product-detail-image">
-                    <img src="{{ asset(product.image_path) }}" alt="{{ product.name }}">
+                    <img src="{{ asset(product.imagePath) }}" alt="{{ product.name }}">
                 </div>
                 <div class="product-detail-info">
                     <h1>{{ product.name }}</h1>
@@ -21,9 +27,9 @@
                             <input type="hidden" name="product_id" value="{{ product.id }}">
                             {% for size in product.sizes %}
                                 <div class="size-option" style="margin-bottom: 10px;">
-                                    <input type="radio" id="size-{{ size.name }}" name="size" value="{{ size.name }}" {% if loop.first %}checked{% endif %} required>
-                                    <label for="size-{{ size.name }}" style="color: #fff; margin-left: 8px;">
-                                        <span class="size-label">{{ size.name }}</span> - 
+                                    <input type="radio" id="size-{{ size.sizeName }}" name="size" value="{{ size.sizeName }}" {% if loop.first %}checked{% endif %} required>
+                                    <label for="size-{{ size.sizeName }}">
+                                        <span class="size-label">{{ size.sizeName }}</span>
                                         <span class="size-price">₱ {{ size.price|number_format(2) }}</span>
                                     </label>
                                 </div>
