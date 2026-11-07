@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Your Cart - Fuafe Coffee Shop{% endblock %}
+
+{% block body %}
+<section class="cart-section" style="padding-top: 100px; min-height: 80vh;">
+    <div class="container">
+        <h1 class="page-title" style="text-align:center; margin-bottom: 30px;">Your Cart</h1>
+        {#{% if cart_items is empty %}#}
+            <p class="empty-cart" style="text-align:center; color:#fff;">Your cart is empty. <a href="{{ path('app_menu') }}" style="color: #ff9f43;">Browse our menu</a></p>
+        {#{% else %}
+            <div class="cart-table">
+                <table style="width: 100%; border-collapse: collapse; color: #fff;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.2); text-align: left;">
+                            <th style="padding: 12px;">Item</th>
+                            <th style="padding: 12px;">Size</th>
+                            <th style="padding: 12px;">Price</th>
+                            <th style="padding: 12px;">Qty</th>
+                            <th style="padding: 12px;">Subtotal</th>
+                            <th style="padding: 12px;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart_items %}
+                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.1);">
+                                <td style="padding: 12px; display: flex; align-items: center; gap: 10px;">
+                                    <img src="{{ asset(item.image_path) }}" width="50" height="50" style="border-radius: 8px; object-fit: cover;">
+                                    <span>{{ item.name }}</span>
+                                </td>
+                                <td style="padding: 12px;">{{ item.size }}</td>
+                                <td style="padding: 12px;">₱ {{ item.price|number_format(2) }}</td>
+                                <td style="padding: 12px;">{{ item.quantity }}</td>
+                                <td style="padding: 12px;">₱ {{ (item.price * item.quantity)|number_format(2) }}</td>
+                                <td style="padding: 12px;">
+                                    <a href="{{ path('app_cart_remove', {id: item.id}) }}" class="btn-remove" style="color: #ff6b6b; text-decoration: none;">Remove</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <div class="cart-total" style="margin-top: 30px; display: flex; justify-content: space-between; align-items: center;">
+                    <strong style="font-size: 1.3rem; color: #fff;">Total: ₱ {{ total|number_format(2) }}</strong>
+                    <a href="{{ path('app_checkout') }}" class="btn-auth">Proceed to Checkout</a>
+                </div>
+            </div>
+        {% endif %}#}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,1653 @@
+@font-face {
+  font-family: 'Brusher';
+  src: url('Text/Brusher.ttf');
+}
+
+@font-face {
+  font-family: 'Sitka';
+  src: url('Text/Sitka-Small.ttf');
+}
+
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Sitka'; 
+}
+
+h3 {
+  font-family: 'Brusher';
+}
+
+body {
+    background-color: #1a1a1a;
+}
+
+/* Hero Section */
+.hero-section {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    /* Background image (replace with your dark coffee shop image) */
+    background-image: url('pictures/web-bg.svg');
+    background-size: cover;
+    background-position: center;
+    background-color: #2a2a2a; /* Fallback color */
+    /* Slight dark overlay for better text visibility */
+    box-shadow: inset 0 0 200px rgba(0, 0, 0, 0.8);
+    overflow: hidden;
+}
+
+/* Header */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    background: transparent;
+    /* Make it a reference for absolute positioning */
+    position: relative; 
+}
+
+.logo-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-icon img {
+    width: 50px;
+    height: auto;
+}
+
+/* Remove underlines and default link colors */
+a, a:visited, a:hover, a:active {
+    text-decoration: none;
+}
+
+/* Specifically for the product cards (if they are wrapped in an <a> tag) */
+.menu-card-lg a, .menu-card-lg a:visited, .menu-card-lg a:hover, .menu-card-lg a:active {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* Specifically for the navigation links */
+.nav-links a, .nav-links a:visited, .nav-links a:hover, .nav-links a:active {
+    text-decoration: none;
+}
+
+.welcome-text {
+    color: #f8a84a;
+    font-family: 'Sitka';
+    font-size: 18px;
+    font-weight: 500;
+    white-space: nowrap;
+    letter-spacing: 0.5px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+}
+
+/* Position the nav links independently */
+.nav-links {
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    
+    /* Absolutely position it */
+    position: absolute;
+    left: 50%; /* Centers it based on the header's width */
+    transform: translateX(90px);
+    
+    /* To move it left, use a negative number (e.g., -100px) */
+    /* To move it right, use a positive number (e.g., 50px) */
+    /* Example: transform: translateX(calc(-50% - 50px)); moves it slightly left */
+}
+
+.nav-links a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-links a.active {
+    color: #f8a84a;
+}
+
+.nav-links a:hover {
+    color: #f8a84a;
+}
+
+.signin-btn {
+    display: flex;
+    align-items: center;
+}
+
+.btn-signin,
+.btn-logout {
+    display: inline-block;
+    background-color: #f8a84a;
+    color: #ffffff;
+    padding: 10px 25px;
+    border-radius: 30px;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 18px;
+    transition: background-color 0.3s ease;
+}
+
+.btn-signin:hover,
+.btn-logout:hover {
+    background-color: #e6952a;
+}
+
+/* Hero Content */
+.hero-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    padding: 0 60px;
+    padding-top: 80px; /* Offset for navbar */
+}
+
+/* Left Side */
+.hero-left {
+    flex: 0 0 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.big-logo {
+    width: 325px;
+    max-width: 100%;
+    margin-bottom: 0px;
+    margin-left: 70px;
+    margin-top: -20px;
+}
+
+.tagline {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 300;
+    margin-bottom: 30px;
+    margin-left: 50px;
+    letter-spacing: 1px;
+}
+
+.order-btn {
+    background-color: transparent;
+    border: 2px solid #8a8a8a;
+    color: #ffffff;
+    padding: 12px 30px;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.4);
+    border-radius: 4px;
+    width: fit-content;
+    margin-top: 10px;
+    margin-left: 150px;
+}
+
+/* Right Side */
+.hero-right {
+    flex: 0 0 55%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-cards-container {
+    position: relative;
+    width: 580px; /* 3*180 + 2*20 */
+    max-width: 90%; /* Responsive safety */
+    overflow: hidden; /* Hides the 4th card */
+    margin: 0 auto;
+}
+
+.carousel-track {
+    display: flex; 
+    transition: transform 0.4s ease-in-out;
+    gap: 20px; /* Space between cards */
+}
+
+/* Card Styling */
+.menu-card {
+    background-color: #ffffff;
+    flex: 0 0 180px; /*change depending on menu card size*/
+    width: 180px;
+    height: 360px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+    border-radius: 4px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-card h3 {
+    color: #f8a84a;
+    font-size: 20px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+}
+
+.card-img {
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.menu-card p {
+    font-size: 11px;
+    color: #333333;
+    line-height: 1.6;
+    margin-bottom: 15px;
+    margin-left: 5px;
+    flex-grow: 1;
+}
+
+.find-more {
+    color: #f8a84a;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    margin-left: 5px;
+    margin-bottom: 10px;
+}
+
+/* Navigation Arrows */
+.navigation-arrows {
+    position: absolute;
+    left: -15px;
+    width: calc(100% + 35px);
+    display: flex;
+    justify-content: space-between;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.arrow {
+    background: none;
+    border: none;
+    font-size: 30px;
+    color: #ffffff;
+    cursor: pointer;
+    pointer-events: auto;
+    opacity: 0.8;
+}
+
+.arrow:hover {
+    opacity: 1;
+}
+
+/* Responsive (optional) */
+@media (max-width: 1200px) {
+    .hero-content {
+        flex-direction: column;
+        align-items: flex-start;
+        padding-top: 100px;
+    }
+    .hero-left {
+        margin-bottom: 40px;
+    }
+    .menu-cards-container {
+        flex-wrap: wrap;
+    }
+}
+
+/* ================= ABOUT US SECTION ================= */
+.about-section {
+    background-color: #fbf0dc; /* Light background to mimic paper */
+    padding: 108px 0;
+    position: relative;
+    /* Optional subtle background pattern (you can replace with actual coffee bean pattern image) */
+    background-image: radial-gradient(circle, rgba(200, 200, 200, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.deco-top-left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 180px; /* Adjust size as needed */
+    height: auto;
+}
+
+.deco-top-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 180px; /* Adjust size as needed */
+    height: auto;
+}
+
+.deco-Lbottom-left {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 230px; /* Adjust size as needed */
+    height: auto;
+    transform: translateY(-50%);
+}
+
+.deco-Lbottom-right {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 230px; /* Adjust size as needed */
+    height: auto;
+    transform: translateY(-50%);
+}
+
+.about-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: -50px -75px;
+    gap: 30px;
+}
+
+.about-text {
+    flex: 0 0 50%;
+}
+
+.section-label {
+    color: #333;
+    font-size: 24px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.section-title {
+    font-family: 'Dancing Script', cursive;
+    color: #f8a84a;
+    font-size: 56px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    font-family: 'Brusher';
+}
+
+.about-text p {
+    color: #333;
+    font-size: 18px;
+    line-height: 1.8;
+}
+
+.about-image {
+    position: relative;
+    display: inline-block; /* Wraps tightly around the base image */
+    right: -100px;
+}
+
+.base-img {
+  display: block;
+  width: 80%;
+  height: auto;
+}
+
+.overlay-img {
+    position: absolute; /* Positions relative to .image-container */
+    bottom: -25px;          /* Distance from the top border */
+    right: 70px;        /* Distance from the right border */
+    width: 90%;        /* Adjust size as needed */
+    height: auto;       /* Maintain aspect ratio */
+}
+
+/* ================= FEATURES SECTION ================= */
+.features-section {
+    background-color: #fbf0dc;
+    padding: 125px 0;
+    text-align: center;
+    background-image: radial-gradient(circle, rgba(200, 200, 200, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.features-section .section-title {
+    margin-top: -50px;
+    margin-bottom: 60px;
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.feature-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.feature-icon {
+    font-size: 60px;
+    color: #f8a84a;
+    margin-bottom: 20px;
+}
+
+.feature-item h3 {
+    color: #f8a84a;
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+.feature-item p {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* ================= TESTIMONIALS SECTION ================= */
+.testimonials-section {
+    background-color: #fbf0dc;
+    padding: 80px 0;
+    text-align: center;
+    position: relative;
+    background-image: radial-gradient(circle, rgba(200, 200, 200, 0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.testimonials-section .section-title {
+    margin-top: -50px;
+    margin-bottom: 35px;
+}
+
+.testimonial-avatar {
+    font-size: 60px;
+    color: #fff;
+    margin-bottom: 10px;
+}
+
+.stars {
+    color: #ddd;
+    margin-bottom: 15px;
+}
+
+.stars i.active {
+    color: #f8a84a;
+}
+
+.read-more {
+    color: #f8a84a;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    margin-left: 5px;
+}
+
+.add-comment {
+    max-width: 600px;
+    margin: 40px auto 0;
+}
+
+.add-comment input {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 30px;
+    font-size: 16px;
+    outline: none;
+    text-align: center;
+}
+
+.add-comment input:focus {
+    border-color: #f8a84a;
+}
+
+.deco-middle-left {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 160px; /* Adjust size as needed */
+    height: auto;
+    transform: translateY(-50%);
+}
+
+.deco-middle-right {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 160px; /* Adjust size as needed */
+    height: auto;
+    transform: translateY(-50%);
+}
+
+.deco-lebottom-left {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 180px; /* Adjust size as needed */
+    height: auto;
+}
+
+.deco-lebottom-right {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 180px; /* Adjust size as needed */
+    height: auto;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .about-wrapper {
+        flex-direction: column;
+        text-align: center;
+    }
+    .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* ================= CONTACT SECTION ================= */
+.contact-section {
+    position: relative;
+    padding: 0;
+    overflow: hidden;
+    background-color: #000;
+}
+
+.contact-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('pictures/Asset 12.svg'); /* Reusing the dark hero background */
+    background-size: cover;
+    background-position: center;
+    opacity: 0.6; /* Dark overlay effect */
+    z-index: 1;
+}
+
+.contact-container {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+    padding: 80px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: 500px;
+}
+
+.contact-photo {
+    flex: 0 0 30%;
+    padding: 15px 15px 40px 15px; /* Polaroid style border */
+    box-shadow: 0 15px 30px rgba(0,0,0,0.5);
+    border-radius: 4px;
+    position: relative;
+}
+
+.contact-photo img {
+    width: 90%;
+    height: auto;
+    display: block;
+    border-radius: 2px;
+}
+
+.contact-info {
+    flex: 0 0 50%;
+    text-align: left;
+}
+
+.contact-title {
+    font-family: 'Brusher';
+    font-size: 60px;
+    color: #f8a84a;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.7);
+}
+
+.contact-info p {
+    color: #fff;
+    font-size: 18px;
+    line-height: 1.8;
+    text-shadow: 1px 1px 5px rgba(0,0,0,0.7);
+}
+
+/* ---- Contact Footer Bar ---- */
+.contact-footer {
+    position: relative;
+    z-index: 2;
+    background-color: #000; /* Solid black bar */
+    padding: 30px 0;
+    border-top: 2px solid #f8a84a;
+}
+
+.footer-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    max-width: 1200px;
+    margin: -10px auto;
+    padding: 0 40px;
+}
+
+.qr-box img {
+    width: 110px;
+    height: 110px;
+    border: 4px solid #fff;
+}
+
+.divider {
+    width: 2px;
+    height: 40px;
+    background-color: #fff;
+    opacity: 0.8;
+}
+
+.footer-info {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.info-row {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: #fff;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.info-row i {
+    color: #f8a84a;
+    font-size: 22px;
+    width: 30px;
+    text-align: center;
+}
+
+.left-info .info-row i {
+    background: #f8a84a;
+    color: #000;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.right-info .info-row i {
+    background: #f8a84a;
+    color: #000;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .contact-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .contact-info {
+        text-align: center;
+    }
+    .footer-content {
+        flex-direction: column;
+        gap: 20px;
+    }
+    .divider {
+        height: 2px;
+        width: 80px;
+    }
+}
+
+/* ================= FULL MENU PAGE ================= */
+.full-menu-section {
+    background-color: #1a1a1a;
+    padding: 60px 0 100px;
+    min-height: 100vh;
+}
+
+.page-title {
+    font-family: 'Brusher', cursive;
+    font-size: 60px;
+    color: #f8a84a;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.page-subtitle {
+    color: #ccc;
+    text-align: center;
+    font-size: 18px;
+    margin-bottom: 50px;
+}
+
+.menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.menu-card-lg {
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.menu-card-lg:hover {
+    transform: translateY(-10px);
+}
+
+.menu-card-lg .card-img {
+    width: 100%;
+    height: 200px;
+    background-color: #eee;
+}
+
+.menu-card-lg .card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.menu-card-lg h3 {
+    color: #f8a84a;
+    font-size: 22px;
+    margin: 15px 20px 5px;
+}
+
+.menu-card-lg p {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.6;
+    margin: 0 20px 15px;
+    flex-grow: 1;
+}
+
+.menu-card-lg .price {
+    display: block;
+    font-size: 20px;
+    font-weight: 700;
+    color: #333;
+    margin: 0 20px 15px;
+}
+
+.menu-card-lg .find-more {
+    display: inline-block;
+    margin: 0 20px 20px;
+    color: #f8a84a;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+/* Fix for header on menu page (static background) */
+.navbar {
+    background-color: rgba(0,0,0,0.8);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+/* Add padding to body so content doesn't hide under fixed header */
+body {
+    padding-top: 80px; /* adjust if header height changes */
+}
+
+/* Only apply to menu page */
+.full-menu-section {
+    padding-top: 80px; /* extra space for fixed header */
+}
+
+
+/* Authentication Section */
+.auth-section {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;  /* This is important */
+    background-color: #1a1a1a;
+    padding: 120px 20px 50px;
+    overflow-y: auto;            /* allow scrolling if content is tall */
+}
+
+.auth-card {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 40px;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    align-self: flex-start;
+    height: auto;
+    min-height: auto;
+}
+
+.auth-logo {
+    width: 150px;
+    margin-bottom: 20px;
+}
+
+.auth-card h2 {
+    font-family: 'Brusher';
+    font-size: 40px;
+    color: #f8a84a;
+    margin-bottom: 20px;
+}
+
+.auth-card form {
+    text-align: left;
+}
+
+.auth-card label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+    font-weight: 500;
+}
+
+.auth-card input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.auth-card .btn-auth {
+    width: 100%;
+    background-color: #f8a84a;
+    color: #fff;
+    padding: 12px;
+    border: none;
+    border-radius: 30px;
+    font-size: 18px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.auth-card .btn-auth:hover {
+    background-color: #e6952a;
+}
+
+.auth-card p {
+    margin-top: 15px;
+}
+
+.auth-card p a {
+    color: #f8a84a;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.auth-navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 15px 40px;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 0;
+    text-align: left;
+}
+
+.auth-navbar img {
+    width: 50px;
+    height: auto;
+}
+
+/* Product Link (removes underline) */
+.product-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.product-link:hover .menu-card-lg {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+}
+
+/* Product Detail Section */
+.product-detail-section {
+    background-color: #1a1a1a;
+    min-height: 100vh;
+    padding: 100px 40px 50px;
+}
+
+.back-link {
+    display: inline-block;
+    color: #f8a84a;
+    text-decoration: none;
+    margin-bottom: 30px;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.back-link:hover {
+    text-decoration: underline;
+}
+
+/* Product Detail Section */
+.product-detail-card {
+    display: flex;
+    gap: 40px;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 30px; /* Reduced padding */
+    max-width: 900px; /* Slightly smaller overall card */
+    margin: 0 auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    /* IMPORTANT: Keeps padding inside the width calculation */
+    box-sizing: border-box; 
+}
+
+.product-detail-image {
+    flex: 0 0 45%;
+    box-sizing: border-box;
+}
+
+.product-detail-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.product-detail-info {
+    /* FIX: Allows the item to shrink and not overflow */
+    flex: 1 1 55%;
+    min-width: 0; 
+    box-sizing: border-box;
+}
+
+.product-detail-info h1 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 42px;
+    color: #f8a84a;
+    margin-bottom: 15px;
+}
+
+.product-full-desc {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+.size-selection h3 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.size-option {
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.size-option input[type="radio"] {
+    display: none;
+}
+
+/* SHORTENED: Reduced padding on the size boxes */
+.size-option label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px; /* Reduced from 12px 20px */
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.size-option input[type="radio"]:checked + label {
+    border-color: #f8a84a;
+    background-color: #fff8f0;
+}
+
+.size-option label:hover {
+    border-color: #f8a84a;
+}
+
+.size-label {
+    font-weight: 600;
+    font-size: 16px;
+    color: #333;
+}
+
+.size-price {
+    font-weight: 700;
+    font-size: 16px;
+    color: #f8a84a;
+}
+
+/* SHORTENED: Reduced padding and font size on the button */
+.btn-auth {
+    width: 100%;
+    background-color: #f8a84a;
+    color: #fff;
+    padding: 12px; /* Reduced from 14px */
+    border: none;
+    border-radius: 30px;
+    font-size: 16px; /* Reduced from 18px */
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 15px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.btn-auth:hover {
+    background-color: #e6952a;
+}
+
+/* Responsive for product detail */
+@media (max-width: 768px) {
+    .product-detail-card {
+        flex-direction: column;
+    }
+    .product-detail-image {
+        flex: 0 0 100%;
+        margin-bottom: 20px;
+    }
+}
+
+/* Cart Section */
+/* Header Actions Container */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Cart Icon */
+.cart-icon {
+    position: relative;
+    color: #fff;
+    font-size: 24px;
+    text-decoration: none;
+}
+
+.cart-count {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: #f8a84a;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    border-radius: 50%;
+    padding: 2px 6px;
+    min-width: 18px;
+    text-align: center;
+}
+
+/* Menu Card Add to Cart Button */
+.btn-add-cart {
+    width: 100%;
+    background-color: #333;
+    color: #fff;
+    padding: 8px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.btn-add-cart:hover {
+    background-color: #f8a84a;
+}
+
+.cart-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+/* Cart Page */
+.cart-section {
+    background-color: #1a1a1a;
+    min-height: 100vh;
+    padding: 100px 40px 50px;
+}
+
+.cart-table {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 30px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.cart-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.cart-table th, .cart-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.cart-table img {
+    border-radius: 5px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+.btn-remove {
+    color: #d9534f;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.cart-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.empty-cart {
+    color: #fff;
+    text-align: center;
+    font-size: 18px;
+    margin-top: 50px;
+}
+
+.empty-cart a {
+    color: #f8a84a;
+}
+
+/* Checkout Page Specific Styles */
+.checkout-card {
+    padding: 30px 40px 40px;   /* 30px top, 40px sides, 20px bottom (shorter lower area) */
+    max-width: 380px;
+    
+    /* CRITICAL: Prevent the card from stretching vertically */
+    align-self: flex-start;
+    height: auto;
+    min-height: auto;
+}
+
+.checkout-card h2 {
+    font-size: 32px;               /* Slightly smaller title */
+    margin-bottom: 20px;
+}
+
+.checkout-card p {
+    margin-bottom: 15px;           /* Add space between lines */
+    font-size: 15px;
+}
+
+/* Push the button further down */
+.checkout-btn {
+    margin-top: 40px;              /* Adds significant space above the button */
+    display: inline-block;        /* Ensure it behaves as a block for proper margins */
+    width: auto;                  /* Let it shrink to content width */
+    padding: 12px 30px;           /* Keep button comfortable size */
+    margin-left: auto;            /* Optional: center it */
+    margin-right: auto;           /* Optional: center it */
+}
+
+/* Admin Panel */
+.admin-section {
+    background-color: #1a1a1a;
+    min-height: 100vh;
+    padding: 0 0 50px;
+}
+
+/* ── Sidebar layout ── */
+.admin-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.admin-sidebar {
+    width: 230px;
+    flex-shrink: 0;
+    background: #111;
+    display: flex;
+    flex-direction: column;
+    border-right: 1px solid #2a2a2a;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.admin-sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 24px 20px 20px;
+    font-family: 'Dancing Script', cursive;
+    font-size: 22px;
+    color: #f8a84a;
+    border-bottom: 1px solid #2a2a2a;
+}
+
+.admin-sidebar-brand i {
+    font-size: 20px;
+}
+
+.admin-sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    padding: 16px 0;
+    flex: 1;
+}
+
+.admin-sidebar-footer {
+    border-top: 1px solid #2a2a2a;
+    padding: 12px 0;
+}
+
+.admin-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    color: #aaa;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.2s, color 0.2s;
+    border-left: 3px solid transparent;
+}
+
+.admin-nav-item:hover,
+.admin-nav-item.active {
+    background: #1e1e1e;
+    color: #f8a84a;
+    border-left-color: #f8a84a;
+}
+
+.admin-nav-item i {
+    width: 18px;
+    text-align: center;
+    font-size: 15px;
+}
+
+/* ── Main content area ── */
+.admin-main {
+    flex: 1;
+    padding: 40px 40px 50px;
+    overflow-x: hidden;
+}
+
+/* Responsive: collapse sidebar to top bar on small screens */
+@media (max-width: 768px) {
+    .admin-layout {
+        flex-direction: column;
+    }
+
+    .admin-sidebar {
+        width: 100%;
+        height: auto;
+        position: static;
+        flex-direction: row;
+        flex-wrap: wrap;
+        border-right: none;
+        border-bottom: 1px solid #2a2a2a;
+    }
+
+    .admin-sidebar-brand {
+        flex: 1 1 100%;
+        border-bottom: 1px solid #2a2a2a;
+        padding: 14px 16px;
+    }
+
+    .admin-sidebar-nav {
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 6px;
+        flex: 1;
+    }
+
+    .admin-sidebar-footer {
+        border-top: none;
+        padding: 6px;
+    }
+
+    .admin-nav-item {
+        border-left: none;
+        border-bottom: 2px solid transparent;
+        padding: 8px 14px;
+        font-size: 13px;
+    }
+
+    .admin-nav-item:hover,
+    .admin-nav-item.active {
+        border-left-color: transparent;
+        border-bottom-color: #f8a84a;
+    }
+
+    .admin-main {
+        padding: 24px 16px 40px;
+    }
+}
+
+
+.admin-message {
+    background: #f8a84a;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.admin-panel {
+    background: #fff;
+    border-radius: 10px;
+    padding: 30px;
+    margin-bottom: 30px;
+}
+
+.admin-panel h2 {
+    font-family: 'Dancing Script', cursive;
+    font-size: 36px;
+    color: #f8a84a;
+    margin-bottom: 20px;
+}
+
+.admin-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 400px;
+}
+
+.admin-form label {
+    font-weight: 600;
+}
+
+.admin-form input, .admin-form textarea {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.admin-table th, .admin-table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.btn-small {
+    background: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-danger {
+    background: #d9534f;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 5px;
+}
+
+/* Admin link in header */
+.admin-link {
+    color: #f8a84a;
+    text-decoration: none;
+    font-weight: 600;
+    margin-right: 350px;
+}
+
+.admin-table input, .admin-table textarea {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Two-column Add Product Form */
+.admin-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form-column {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.admin-form-grid .btn-auth {
+    width: 100%;
+}
+
+/* Table buttons */
+.btn-small, .btn-danger {
+    display: inline-block;
+    margin-right: 5px;
+    padding: 6px 10px;
+    cursor: pointer;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .admin-form-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Stock Messages */
+.stock-message {
+    font-weight: bold;
+    font-size: 18px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.out-of-stock {
+    color: #d9534f; /* Red */
+    background-color: #fce4e4;
+    border: 1px solid #f5c6cb;
+}
+
+.low-stock {
+    color: #e6952a; /* Orange */
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+}
+
+/* Disabled Button styling */
+.btn-auth:disabled {
+    background-color: #cccccc;
+    color: #666666;
+    cursor: not-allowed;
+}
+
+/* Horizontal scroll for the inventory table */
+.table-scroll-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
+    border-radius: 8px;
+}
+
+.admin-table {
+    min-width: 1100px; /* Forces the table to be wide enough for all columns */
+    border-collapse: collapse;
+}
+
+/* Make sure all input fields inside the table don't get cut off */
+.admin-table input, .admin-table textarea {
+    min-width: 60px;
+}
+
+/* Dynamic Blog / Comments */
+/* ============ FINAL BLOG CAROUSEL FIX - MIRRORS HERO SECTION ============ */
+.testimonials-wrapper {
+    position: relative;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 50px; /* Creates a 50px buffer on each side for the arrows */
+    overflow: hidden; /* THIS IS THE KEY! Clips the 4th card initially */
+}
+
+.testimonial-track {
+    display: flex;
+    gap: 20px;
+    transition: transform 0.4s ease;
+    /* NO width, NO overflow here! Let it grow to fit all cards */
+}
+
+.testimonial-card {
+    flex: 0 0 calc((100% - 40px) / 3);
+    box-sizing: border-box;
+    background-color: #000;
+    color: #fff;
+    padding: 30px 20px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* Arrows: Positioned inside the padding area, never clipped */
+.testimonial-arrows {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0px;
+    right: 0px;
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 10;
+}
+
+.testimonial-arrows .arrow {
+    pointer-events: auto;
+    background: none;
+    border: none;
+    font-size: 30px;
+    color: #f8a84a;
+    cursor: pointer;
+    padding: 0;
+}
+
+/* The "Find More" card */
+.find-more-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #222;
+    border: 2px dashed #f8a84a;
+}
+
+.find-more-card .btn-auth {
+    width: auto;
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
+/* Comments Page Styles */
+.comments-page-section {
+    background-color: #1a1a1a;
+    min-height: 100vh;
+    padding: 120px 40px 50px;
+}
+
+.comments-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.comment-box {
+    background: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* ============ COMMENT STAR RATING (FIXED) ============ */
+.star-rating-input {
+    display: flex;
+    flex-direction: row-reverse; /* Flips the order so 1 is leftmost, 5 is rightmost */
+    justify-content: flex-end;
+    gap: 5px;
+    margin: 15px 0;
+}
+
+.star-rating-input input {
+    display: none;
+}
+
+.star-rating-input label {
+    cursor: pointer;
+    font-size: 35px;
+    color: #ddd; /* Default grey */
+    transition: color 0.2s;
+}
+
+/* Hover and checked states (highlight stars up to selected) */
+.star-rating-input input:checked ~ label,
+.star-rating-input label:hover,
+.star-rating-input label:hover ~ label {
+    color: #f8a84a; /* Orange */
+}

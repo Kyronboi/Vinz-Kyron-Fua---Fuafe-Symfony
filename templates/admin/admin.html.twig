@@ -1,0 +1,300 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin Dashboard - Fuafe Coffee Shop{% endblock %}
+
+{% block body %}
+    <section class="admin-section">
+        <div class="admin-layout">
+
+            {# ── Sidebar ── #}
+            {% include 'partials/sidebar.html.twig' %}
+
+            {# ── Main content ── #}
+            <main class="admin-main">
+                <h1 class="page-title">Admin Dashboard</h1>
+
+                {% for label, messages in app.flashes %}
+                    {% for msg in messages %}
+                        <p class="admin-message {{ label == 'error' ? 'out-of-stock' : '' }}">{{ msg }}</p>
+                    {% endfor %}
+                {% endfor %}
+
+                {% if message is defined and message %}
+                    <p class="admin-message out-of-stock">{{ message }}</p>
+                {% endif %}
+
+                <div id="section-add-product" class="admin-panel">
+                    <h2>Add New Product</h2>
+                    <form method="POST" action="{{ path('app_admin') }}" class="admin-form admin-form-grid">
+                        <input type="hidden" name="admin_action" value="add_product">
+                        <div class="form-column">
+                            <label for="new_name">Product Name</label>
+                            <input type="text" id="new_name" name="name" placeholder="e.g. Caramel Macchiato" required>
+
+                            <label for="new_description">Description</label>
+                            <textarea id="new_description" name="description" rows="3" placeholder="Describe the coffee blend..." required></textarea>
+
+                            <label for="new_image">Image Path</label>
+                            <input type="text" id="new_image" name="image_path" placeholder="pictures/Asset 1.png" required>
+                        </div>
+                        <div class="form-column">
+                            <label for="new_small_price">Price (Small) (₱)</label>
+                            <input type="number" id="new_small_price" step="0.01" min="0" name="small_price" placeholder="85.00" required>
+
+                            <label for="new_regular_price">Price (Regular) (₱)</label>
+                            <input type="number" id="new_regular_price" step="0.01" min="0" name="regular_price" placeholder="95.00" required>
+
+                            <label for="new_large_price">Price (Large) (₱)</label>
+                            <input type="number" id="new_large_price" step="0.01" min="0" name="large_price" placeholder="110.00" required>
+
+                            <label for="new_stock">Initial Stock</label>
+                            <input type="number" id="new_stock" name="stock" value="50" min="0" required>
+                        </div>
+                        <button type="submit" class="btn-auth" style="grid-column: 1 / -1;">Add Product</button>
+                    </form>
+                </div>
+
+                <div id="section-inventory" class="admin-panel">
+                    <h2>Manage Inventory</h2> {# Dummy products, ilisdan ra basta naa nay database #}
+                    <form method="POST" action="{{ path('app_admin') }}" id="inventoryForm">
+                        <input type="hidden" name="admin_action" id="admin_action" value="update_all">
+                        <input type="hidden" name="update_id" id="update_id" value="">
+                        <input type="hidden" name="delete_product_id" id="delete_product_id" value="">
+
+                        <div class="table-scroll-wrapper">
+                            <table class="admin-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Image Path</th>
+                                        <th>Name</th>
+                                        <th>Description</th>
+                                        <th>Small Price</th>
+                                        <th>Regular Price</th>
+                                        <th>Large Price</th>
+                                        <th>Stock</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {# Espresso #}
+                                    <tr>
+                                        <td><strong>#1</strong></td>
+                                        <td>
+                                            <input type="text" name="image_path[1]" value="pictures/Asset 1.png" style="width:160px;">
+                                        </td>
+                                        <td>
+                                            <input type="text" name="name[1]" value="Espresso" style="width:120px;">
+                                        </td>
+                                        <td>
+                                            <textarea name="description[1]" rows="2" style="width:200px;">Strong, bold, and pure. A classic shot of espresso brewed to perfection.</textarea>
+                                        </td>
+                                        <td>
+                                            <input type="number" step="0.01" min="0" name="small_price[1]" value="85.00" style="width:75px;">
+                                        </td>
+                                        <td>
+                                            <input type="number" step="0.01" min="0" name="regular_price[1]" value="95.00" style="width:75px;">
+                                        </td>
+                                        <td>
+                                            <input type="number" step="0.01" min="0" name="large_price[1]" value="110.00" style="width:75px;">
+                                        </td>
+                                        <td>
+                                            <input type="number" name="stock[1]" value="50" min="0" style="width:65px;">
+                                            <input type="hidden" name="product_id[]" value="1">
+                                        </td>
+                                        <td style="white-space: nowrap;">
+                                            <button type="button" class="btn-small" data-product-id="1" onclick="submitIndividual(this.dataset.productId)">Update</button>
+                                            <button type="button" class="btn-danger" data-product-id="1" onclick="submitDelete(this.dataset.productId)">Delete</button>
+                                        </td>
+                                    </tr>
+
+                                    {# Mocha #}
+                                    <tr>
+                                        <td><strong>#2</strong></td>
+                                        <td>
+                                            <input type="text" name="image_path[2]" value="pictures/Asset 2.png" style="width:160px;">
+                                        </td>
+                                        <td>
+                                            <input type="text" name="name[2]" value="Mocha" style="width:120px;">
+                                        </td>
+                                        <td>
+                                            <textarea name="description[2]" rows="2" style="width:200px;">Rich chocolate combined with our signature espresso and steamed velvety milk.</textarea>
+                                        </td>
+                                        <td>
+                                            <input type="number" step="0.01" min="0" name="small_price[2]" value="105.00" style="width:75px;">
+                                        </td>
+                                        <td>
+                                            <input type="number" step="0.01" min="0" name="regular_price[2]" value="120.00" style="width:75px;">
+                                        </td>
+                                        <td>
+                                            <input type="number" step="0.01" min="0" name="large_price[2]" value="135.00" style="width:75px;">
+                                        </td>
+                                        <td>
+                                            <input type="number" name="stock[2]" value="50" min="0" style="width:65px;">
+                                            <input type="hidden" name="product_id[]" value="2">
+                                        </td>
+                                        <td style="white-space: nowrap;">
+                                            <button type="button" class="btn-small" data-product-id="2" onclick="submitIndividual(this.dataset.productId)">Update</button>
+                                            <button type="button" class="btn-danger" data-product-id="2" onclick="submitDelete(this.dataset.productId)">Delete</button>
+                                        </td>
+                                    </tr>
+
+                                    {# Latte #}
+                                    <tr>
+                                        <td><strong>#3</strong></td>
+                                        <td>
+                                            <input type="text" name="image_path[3]" value="pictures/Asset 3.png" style="width:160px;">
+                                        </td>
+                                        <td>
+                                            <input type="text" name="name[3]" value="Latte" style="width:120px;">
+                                        </td>
+                                        <td>
+                                            <textarea name="description[3]" rows="2" style="width:200px;">Smooth milk with a delicate layer of foam and fragrant espresso.</textarea>
+                                        </td>
+                                        <td>
+                                            <input type="number" step="0.01" min="0" name="small_price[3]" value="95.00" style="width:75px;">
+                                        </td>
+                                        <td>
+                                            <input type="number" step="0.01" min="0" name="regular_price[3]" value="110.00" style="width:75px;">
+                                        </td>
+                                        <td>
+                                            <input type="number" step="0.01" min="0" name="large_price[3]" value="125.00" style="width:75px;">
+                                        </td>
+                                        <td>
+                                            <input type="number" name="stock[3]" value="50" min="0" style="width:65px;">
+                                            <input type="hidden" name="product_id[]" value="3">
+                                        </td>
+                                        <td style="white-space: nowrap;">
+                                            <button type="button" class="btn-small" data-product-id="3" onclick="submitIndividual(this.dataset.productId)">Update</button>
+                                            <button type="button" class="btn-danger" data-product-id="3" onclick="submitDelete(this.dataset.productId)">Delete</button>
+                                        </td>
+                                    </tr>
+
+                                    {# Cappuccino #}
+                                    <tr>
+                                        <td><strong>#4</strong></td>
+                                        <td>
+                                            <input type="text" name="image_path[4]" value="pictures/cappuccino.jpg" style="width:160px;">
+                                        </td>
+                                        <td>
+                                            <input type="text" name="name[4]" value="Cappuccino" style="width:120px;">
+                                        </td>
+                                        <td>
+                                            <textarea name="description[4]" rows="2" style="width:200px;">The perfect balance of espresso, silky steam, and rich micro-foam.</textarea>
+                                        </td>
+                                        <td>
+                                            <input type="number" step="0.01" min="0" name="small_price[4]" value="100.00" style="width:75px;">
+                                        </td>
+                                        <td>
+                                            <input type="number" step="0.01" min="0" name="regular_price[4]" value="115.00" style="width:75px;">
+                                        </td>
+                                        <td>
+                                            <input type="number" step="0.01" min="0" name="large_price[4]" value="130.00" style="width:75px;">
+                                        </td>
+                                        <td>
+                                            <input type="number" name="stock[4]" value="50" min="0" style="width:65px;">
+                                            <input type="hidden" name="product_id[]" value="4">
+                                        </td>
+                                        <td style="white-space: nowrap;">
+                                            <button type="button" class="btn-small" data-product-id="4" onclick="submitIndividual(this.dataset.productId)">Update</button>
+                                            <button type="button" class="btn-danger" data-product-id="4" onclick="submitDelete(this.dataset.productId)">Delete</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <button {#type="submit"#} class="btn-auth" style="margin-top:20px;" onclick="alert('Dli pa ni mogana bru')">Update All Products</button>
+                    </form>
+
+                    {#<h2>Manage Inventory</h2>
+                    {% if products is empty %}
+                        <p>No products found.</p>
+                    {% else %}  
+                        <form method="POST" action="{{ path('app_admin') }}" id="inventoryForm">
+                            <input type="hidden" name="admin_action" id="admin_action" value="update_all">
+                            <input type="hidden" name="update_id" id="update_id" value="">
+                            <input type="hidden" name="delete_product_id" id="delete_product_id" value="">
+
+                            <div class="table-scroll-wrapper">
+                                <table class="admin-table">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Image Path</th>
+                                            <th>Name</th>
+                                            <th>Description</th>
+                                            <th>Small Price</th>
+                                            <th>Regular Price</th>
+                                            <th>Large Price</th>
+                                            <th>Stock</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for product in products %}
+                                            {% set small = sizesLookup[product.id].Small ?? 0 %}
+                                            {% set regular = sizesLookup[product.id].Regular ?? 0 %}
+                                            {% set large = sizesLookup[product.id].Large ?? 0 %}
+                                            <tr>
+                                                <td><strong>#{{ product.id }}</strong></td>
+                                                <td>
+                                                    <input type="text" name="image_path[{{ product.id }}]" value="{{ product.image_path }}" style="width:160px;">
+                                                </td>
+                                                <td>
+                                                    <input type="text" name="name[{{ product.id }}]" value="{{ product.name }}" style="width:120px;">
+                                                </td>
+                                                <td>
+                                                    <textarea name="description[{{ product.id }}]" rows="2" style="width:200px;">{{ product.description }}</textarea>
+                                                </td>
+                                                <td>
+                                                    <input type="number" step="0.01" min="0" name="small_price[{{ product.id }}]" value="{{ small }}" style="width:75px;">
+                                                </td>
+                                                <td>
+                                                    <input type="number" step="0.01" min="0" name="regular_price[{{ product.id }}]" value="{{ regular }}" style="width:75px;">
+                                                </td>
+                                                <td>
+                                                    <input type="number" step="0.01" min="0" name="large_price[{{ product.id }}]" value="{{ large }}" style="width:75px;">
+                                                </td>
+                                                <td>
+                                                    <input type="number" name="stock[{{ product.id }}]" value="{{ product.stock|default(0) }}" min="0" style="width:65px;">
+                                                    <input type="hidden" name="product_id[]" value="{{ product.id }}">
+                                                </td>
+                                                <td style="white-space: nowrap;">
+                                                    <button type="button" class="btn-small" data-product-id="{{ product.id }}" onclick="submitIndividual(this.dataset.productId)">Update</button>
+                                                    <button type="button" class="btn-danger" data-product-id="{{ product.id }}" onclick="submitDelete(this.dataset.productId)">Delete</button>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <button type="submit" class="btn-auth" style="margin-top:20px;">Update All Products</button>
+                        </form>
+                    {% endif %}#}
+                </div>
+            </main>
+
+        </div>
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        function submitIndividual(id) {
+            document.getElementById('admin_action').value = 'update_individual';
+            document.getElementById('update_id').value = id;
+            document.getElementById('inventoryForm').submit();
+        }
+
+        function submitDelete(id) {
+            if (confirm('Are you sure you want to delete product #' + id + '?')) {
+                document.getElementById('admin_action').value = 'delete_product';
+                document.getElementById('delete_product_id').value = id;
+                document.getElementById('inventoryForm').submit();
+            }
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create Account - Fuafe Coffee Shop{% endblock %}
+
+{% block body %}
+<section class="auth-section" style="padding-top: 100px; min-height: 80vh;">
+    <div class="auth-card">
+        <img src="{{ asset('pictures/B&W logo.svg') }}" alt="Fuafe Logo" class="auth-logo">
+        <h2>Create Account</h2>
+        {% if error is defined and error %}
+            <p style="color: #ff6b6b;">{{ error }}</p>
+        {% endif %}
+        <form method="POST" action="{{ path('app_register') }}">
+            <label>Username</label>
+            <input type="text" name="username" placeholder="Your name" required>
+            <label>Email</label>
+            <input type="email" name="email" placeholder="you@example.com" required>
+            <label>Age</label>
+            <input type="number" name="age" placeholder="e.g. 21" required>
+            <label>Delivery Location</label>
+            <input type="text" name="location" placeholder="e.g. Dumaguete City" required>
+            <label>Password</label>
+            <input type="password" name="password" placeholder="••••••••" required>
+            <button type="submit" class="btn-auth">Register</button>
+        </form>
+        <p style="margin-top: 15px;">Already have an account? <a href="{{ path('app_login') }}" style="color: #ff9f43;">Log In</a></p>
+    </div>
+</section>
+{% endblock %}

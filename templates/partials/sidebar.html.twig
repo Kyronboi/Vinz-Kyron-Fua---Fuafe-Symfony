@@ -1,0 +1,25 @@
+<aside class="admin-sidebar">
+    <div class="admin-sidebar-brand">
+        <i class="fas fa-mug-hot"></i>
+        <span>Admin Panel</span>
+    </div>
+
+    <nav class="admin-sidebar-nav">
+        <a href="#section-add-product" class="admin-nav-item active">
+            <i class="fas fa-plus-circle"></i> Add Product
+        </a>
+        <a href="#section-inventory" class="admin-nav-item">
+            <i class="fas fa-boxes-stacked"></i> Inventory
+        </a>
+        <a href="{{ path('app_comments') }}" class="admin-nav-item">
+            <i class="fas fa-comments"></i> Comments
+        </a>
+    </nav>
+
+    <div class="admin-sidebar-footer">
+        <a href="{{ path('app_home') }}" class="admin-nav-item">
+            <i class="fas fa-arrow-left"></i> Back to Site
+        </a>
+    </div>
+</aside>
+

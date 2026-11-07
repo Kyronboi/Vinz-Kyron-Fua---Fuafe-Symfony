@@ -1,0 +1,223 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Fuafe Coffee Shop - Home{% endblock %}
+
+{% block body %}
+    <section class="hero-section" id="home">
+        <!-- Main Hero Content -->
+        <div class="hero-content">
+            <!-- Left Side: Logo & Tagline -->
+            <div class="hero-left">
+                <img src="{{ asset('pictures/MainTwo.svg') }}" alt="Fuafe Logo" class="big-logo">
+                <p class="tagline">All you need is coffee, wifi, and a dream.</p>
+                <a href="{{ path('app_menu') }}" class="order-btn">Order Now</a>
+            </div>
+
+            <!-- Right Side: Menu Cards -->
+            <div class="hero-right">
+                <div class="menu-cards-container">
+                    <div class="carousel-track">
+                        <!-- Espresso Card -->
+                        <div class="menu-card">
+                            <div class="card-img">
+                                <img src="{{ asset('pictures/Asset 1.png') }}" alt="Espresso">
+                            </div>
+                            <h3>Espresso</h3>
+                            <p>Strong, bold, and pure. A classic shot of espresso.</p>
+                            <a href="{{ path('app_menu') }}" class="find-more">Find out more <i class="fas fa-arrow-right"></i></a>
+                        </div>
+
+                        <!-- Mocha Card -->
+                        <div class="menu-card">
+                            <div class="card-img">
+                                <img src="{{ asset('pictures/Asset 2.png') }}" alt="Mocha">
+                            </div>
+                            <h3>Mocha</h3>
+                            <p>Rich chocolate combined with our signature espresso.</p>
+                            <a href="{{ path('app_menu') }}" class="find-more">Find out more <i class="fas fa-arrow-right"></i></a>
+                        </div>
+
+                        <!-- Latte Card -->
+                        <div class="menu-card">
+                            <div class="card-img">
+                                <img src="{{ asset('pictures/Asset 3.png') }}" alt="Latte">
+                            </div>
+                            <h3>Latte</h3>
+                            <p>Smooth milk with a delicate layer of foam.</p>
+                            <a href="{{ path('app_menu') }}" class="find-more">Find out more <i class="fas fa-arrow-right"></i></a>
+                        </div>
+
+                        <!-- Cappuccino Card -->
+                        <div class="menu-card">
+                            <div class="card-img">
+                                <img src="{{ asset('pictures/cappuccino.jpg') }}" alt="Cappuccino">
+                            </div>
+                            <h3>Cappuccino</h3>
+                            <p>Perfect balance of espresso, steam, and foam.</p>
+                            <a href="{{ path('app_menu') }}" class="find-more">Find out more <i class="fas fa-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Navigation Arrows -->
+                <div class="navigation-arrows">
+                    <button class="arrow left" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+                    <button class="arrow right" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= ABOUT US SECTION ================= -->
+    <section class="about-section">
+        <img src="{{ asset('bg-design/Beans-tl.png') }}" class="deco-top-left" alt="beans">
+        <img src="{{ asset('bg-design/Beans-tr.png') }}" class="deco-top-right" alt="beans">
+
+        <img src="{{ asset('bg-design/Leaves-ml.png') }}" class="deco-Lbottom-left" alt="leaves">
+        <img src="{{ asset('bg-design/Leaves-mr.png') }}" class="deco-Lbottom-right" alt="leaves">
+        <div class="container about-wrapper">
+            <div class="about-text">
+                <span class="section-label">About Us</span>
+                <h2 class="section-title">What is Fuafe?</h2>
+                <p>Fuafe is your local, neighborhood coffee delivery service dedicated to bringing fresh, handcrafted drinks right to your doorstep. We believe great days start with great coffee, which is why we brew every order using locally roasted beans and deliver them iced, hot, or blended fast and fresh.</p>
+            </div>
+            <div class="about-image">
+                <img src="{{ asset('pictures/white background.png') }}" alt="Background" class="base-img">
+                <img src="{{ asset('pictures/tilted coffee.svg') }}" alt="About Us Coffee" class="overlay-img">
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= WHAT MAKES OUR COFFEE SPECIAL ================= -->
+    <section class="features-section">
+        <div class="container">
+            <h2 class="section-title">What makes our coffee special</h2>
+            <div class="features-grid">
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-mug-hot"></i></div>
+                    <h3>The Perfect Cup</h3>
+                    <p>Every drink is precisely brewed to order using calibrated recipes to guarantee rich flavor and smooth texture from the very first sip to the last.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-seedling"></i></div>
+                    <h3>The Best Blend</h3>
+                    <p>We source ethically grown, freshly roasted beans from local growers to craft signature blends that balanced, aromatic, and bold.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-leaf"></i></div>
+                    <h3>Natural Ingredients</h3>
+                    <p>From real chocolate drizzles to pure dairy and high-quality syrups, we use natural ingredients without artificial additives or fillers.</p>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon"><i class="fas fa-smile"></i></div>
+                    <h3>Made with a Smile</h3>
+                    <p>Our baristas and delivery team care about every detail, making sure your favorite coffee arrives quickly and with a touch of local warmth.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= TESTIMONIALS / WHAT OUR CUSTOMERS SAY ================= -->
+    <section class="testimonials-section" id="blog">
+        <div class="container">
+            <img src="{{ asset('bg-design/Beans-ml.png') }}" class="deco-middle-left" alt="beans">
+            <img src="{{ asset('bg-design/Beans-mr.png') }}" class="deco-middle-right" alt="beans">
+            <img src="{{ asset('bg-design/Leavs-br.png') }}" class="deco-lebottom-left" alt="leaves">
+            <img src="{{ asset('bg-design/Leaves-bl.png') }}" class="deco-lebottom-right" alt="leaves">
+
+            <h2 class="section-title">What our customers say</h2>
+            
+            <div class="testimonials-wrapper" id="commentCarousel">
+                <div class="testimonial-track">
+                    {# Maria Santos #}
+                    <div class="testimonial-card">
+                        <div class="testimonial-avatar"><i class="fas fa-user-circle"></i></div>
+                        <h4>Maria Santos</h4>
+                        <div class="stars">
+                            <i class="fas fa-star active"></i>
+                            <i class="fas fa-star active"></i>
+                            <i class="fas fa-star active"></i>
+                            <i class="fas fa-star active"></i>
+                            <i class="fas fa-star active"></i>
+                        </div>
+                        <p>The iced latte is absolutely the best in Dumaguete! Fast delivery and always served cold and fresh.</p>
+                    </div>
+
+                    {# John Doe #}
+                    <div class="testimonial-card">
+                        <div class="testimonial-avatar"><i class="fas fa-user-circle"></i></div>
+                        <h4>John Doe</h4>
+                        <div class="stars">
+                            <i class="fas fa-star active"></i>
+                            <i class="fas fa-star active"></i>
+                            <i class="fas fa-star active"></i>
+                            <i class="fas fa-star active"></i>
+                            <i class="fas fa-star active"></i>
+                        </div>
+                        <p>Their Espresso gives the exact kick I need to start my workday. Smooth texture and amazing aroma!</p>
+                    </div>
+
+                    {# Alex Rivera #}
+                    <div class="testimonial-card">
+                        <div class="testimonial-avatar"><i class="fas fa-user-circle"></i></div>
+                        <h4>Alex Rivera</h4>
+                        <div class="stars">
+                            <i class="fas fa-star active"></i>
+                            <i class="fas fa-star active"></i>
+                            <i class="fas fa-star active"></i>
+                            <i class="fas fa-star active"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                        <p>Rich chocolate combined with bold coffee. The Mocha is definitely my new go-to favorite.</p>
+                    </div>
+
+                    {#{% for comment in comments %}
+                        <div class="testimonial-card">
+                            <div class="testimonial-avatar"><i class="fas fa-user-circle"></i></div>
+                            <h4>{{ comment.username }}</h4>
+                            <div class="stars">
+                                {% for i in 1..5 %}
+                                    <i class="fas fa-star {{ i <= (comment.rating|default(5)) ? 'active' : '' }}"></i>
+                                {% endfor %}
+                            </div>
+                            <p>{{ comment.comment }}</p>
+                        </div>
+                    {% endfor %}#}
+                    
+                    <!-- 4th Card: Find More Comments -->
+                    <div class="testimonial-card find-more-card">
+                        <div class="testimonial-avatar"><i class="fas fa-comments"></i></div>
+                        <h4>More Reviews</h4>
+                        <p>See what other coffee lovers are saying.</p>
+                        <a href="{{ path('app_comments') }}" class="btn-auth" style="text-decoration:none; margin-top:10px;">Find More Comments</a>
+                    </div>
+                </div>
+                
+                <div class="testimonial-arrows">
+                    <button class="arrow left" id="prevComment"><i class="fas fa-chevron-left"></i></button>
+                    <button class="arrow right" id="nextComment"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </div>
+
+            <div class="add-comment">
+                <a {#href="{{ path('app_comment_add') }}"#} class="btn-auth" onclick="alert('Dli pa maka comments bru')">Add a Comment</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= CONTACT SECTION ================= -->
+    <section class="contact-section" id="contact">
+        <div class="contact-bg"></div>
+
+        <div class="container contact-container">
+            <div class="contact-photo">
+                <img src="{{ asset('pictures/cold-coffee.svg') }}" alt="Iced Coffee">
+            </div>
+
+            <div class="contact-info">
+                <h2 class="contact-title">Get in Touch</h2>
+                <p>Have questions about our menu, delivery zones, or catering for an event? Drop us a line or give us a call. Our team is always ready to help you get your daily coffee fix delivered straight to your home or office.</p>
+            </div>
+        </div>
+    </section>
+{% endblock %}
