@@ -101,11 +101,11 @@ a, a:visited, a:hover, a:active {
     /* Absolutely position it */
     position: absolute;
     left: 50%; /* Centers it based on the header's width */
-    transform: translateX(90px);
+    transform: translateX(calc(-50% + 225px));
     
-    /* To move it left, use a negative number (e.g., -100px) */
-    /* To move it right, use a positive number (e.g., 50px) */
-    /* Example: transform: translateX(calc(-50% - 50px)); moves it slightly left */
+    /* Adjust translateX to nudge links left or right:
+       - Use translateX(-50%) to keep it centered
+       - Use translateX(calc(-50% - 30px)) to nudge it further left away from the cart */
 }
 
 .nav-links a {
