@@ -31,6 +31,10 @@ class Product
     #[ORM\Column]
     private ?int $stock = null;
 
+    #[ORM\ManyToOne(inversedBy: 'products')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Customer $createdBy = null;
+
     /**
      * @var Collection<int, ProductSize>
      */
@@ -103,6 +107,18 @@ class Product
     public function setStock(int $stock): static
     {
         $this->stock = $stock;
+
+        return $this;
+    }
+
+    public function getCreatedBy(): ?Customer
+    {
+        return $this->createdBy;
+    }
+
+    public function setCreatedBy(?Customer $createdBy): static
+    {
+        $this->createdBy = $createdBy;
 
         return $this;
     }

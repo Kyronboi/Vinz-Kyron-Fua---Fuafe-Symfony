@@ -126,4 +126,56 @@ class WebsiteTest extends WebTestCase
         $this->assertResponseIsSuccessful();
         $this->assertSelectorTextContains('.checkout-card h2', 'Order Placed Successfully!');
     }
+
+    public function testAdminAndStaffAccountsAndProductOwnership(): void
+    {
+        $client = static::createClient();
+
+        /** @var EntityManagerInterface $em */
+        $em = static::getContainer()->get('doctrine.orm.entity_manager');
+        $customerRepo = $em->getRepository(Customer::class);
+        $productRepo = $em->getRepository(Product::class);
+
+        $admin = $customerRepo->findOneBy(['email' => 'admin@fuafe.com']);
+        $this->assertNotNull($admin, 'Admin account should exist');
+        $this->assertContains('ROLE_ADMIN', $admin->getRoles());
+        $this->assertContains('ROLE_USER', $admin->getRoles());
+        $this->assertTrue($admin->isActive());
+        $this->assertNotNull($admin->getCreatedAt());
+
+        $staff = $customerRepo->findOneBy(['email' => 'staff@fuafe.com']);
+        $this->assertNotNull($staff, 'Staff account should exist');
+        $this->assertContains('ROLE_STAFF', $staff->getRoles());
+        $this->assertContains('ROLE_USER', $staff->getRoles());
+        $this->assertTrue($staff->isActive());
+        $this->assertNotNull($staff->getCreatedAt());
+
+        $products = $productRepo->findAll();
+        $this->assertNotEmpty($products);
+        foreach ($products as $product) {
+            $this->assertNotNull($product->getCreatedBy(), 'Product ' . $product->getName() . ' should have an owner');
+            $this->assertSame($staff->getId(), $product->getCreatedBy()->getId());
+        }
+
+        // Test login as admin
+        $crawler = $client->request('GET', '/login');
+        $form = $crawler->selectButton('Log In')->form([
+            'email' => 'admin@fuafe.com',
+            'password' => 'admin123',
+        ]);
+        $client->submit($form);
+        $this->assertResponseRedirects('/');
+
+        // Restart client session to clear auth for staff test
+        $client->restart();
+
+        // Test login as staff
+        $crawler = $client->request('GET', '/login');
+        $form = $crawler->selectButton('Log In')->form([
+            'email' => 'staff@fuafe.com',
+            'password' => 'staff123',
+        ]);
+        $client->submit($form);
+        $this->assertResponseRedirects('/');
+    }
 }
