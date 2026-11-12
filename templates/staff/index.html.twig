@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Staff Dashboard - Fuafe Coffee Shop{% endblock %}
+
+{% block body %}
+<section class="admin-section" style="padding-top: 100px; min-height: 80vh;">
+    <div style="max-width: 1100px; margin: 0 auto; padding: 20px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px;">
+            <div>
+                <h1 style="color: #fff; font-size: 28px; margin: 0;">
+                    <i class="fas fa-mug-hot" style="color: #f8a84a; margin-right: 10px;"></i>Staff Portal
+                </h1>
+                <p style="color: #bbb; margin-top: 5px;">Manage products, inventory, and coffee menu items.</p>
+            </div>
+            <div>
+                <span style="background: rgba(248, 168, 74, 0.15); color: #f8a84a; padding: 6px 14px; border-radius: 20px; font-weight: 600; font-size: 14px; border: 1px solid #f8a84a;">
+                    <i class="fas fa-id-badge"></i> Staff Role
+                </span>
+            </div>
+        </div>
+
+        <div style="background: rgba(30, 20, 15, 0.9); border: 1px solid rgba(248, 168, 74, 0.3); border-radius: 12px; padding: 30px; text-align: center; color: #fff;">
+            <p style="font-size: 18px; margin-bottom: 10px;">Welcome to the Staff Workspace, <strong>{{ app.user.username }}</strong>!</p>
+            <p style="color: #aaa; margin-bottom: 20px;">You have access to product management, stock monitoring, and order updates.</p>
+            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                <a href="{{ path('app_menu') }}" class="btn-auth" style="display: inline-block; text-decoration: none; padding: 10px 20px;">View Public Menu</a>
+                <a href="{{ path('app_home') }}" style="display: inline-block; text-decoration: none; padding: 10px 20px; color: #f8a84a; border: 1px solid #f8a84a; border-radius: 6px;">Back to Home</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
