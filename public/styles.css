@@ -1373,6 +1373,7 @@ body {
 /* ── Main content area ── */
 .admin-main {
     flex: 1;
+    min-width: 0; /* Critical: bounds flex item width so internal scrollbars trigger cleanly */
     padding: 40px 40px 50px;
     overflow-x: hidden;
 }
@@ -1444,6 +1445,8 @@ body {
     border-radius: 10px;
     padding: 30px;
     margin-bottom: 30px;
+    max-width: 100%;
+    box-sizing: border-box;
 }
 
 .admin-panel h2 {
@@ -1477,9 +1480,10 @@ body {
 }
 
 .admin-table th, .admin-table td {
-    padding: 10px;
-    border: 1px solid #ddd;
+    padding: 12px 14px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
     text-align: left;
+    white-space: nowrap;
 }
 
 .btn-small {
@@ -1578,16 +1582,53 @@ body {
     cursor: not-allowed;
 }
 
-/* Horizontal scroll for the inventory table */
+/* Horizontal scroll for admin and staff tables */
 .table-scroll-wrapper {
     width: 100%;
+    max-width: 100%;
     overflow-x: auto;
+    overflow-y: hidden;
     -webkit-overflow-scrolling: touch; /* Smooth scrolling on mobile */
     border-radius: 8px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    box-sizing: border-box;
+    /* Standards-based scrollbar for Firefox and modern Chromium */
+    scrollbar-width: thin;
+    scrollbar-color: #f8a84a rgba(248, 168, 74, 0.15);
+}
+
+/* Custom styled horizontal scrollbar matching Fuafe luxury coffee theme */
+.table-scroll-wrapper::-webkit-scrollbar {
+    height: 10px;
+}
+
+.table-scroll-wrapper::-webkit-scrollbar-track {
+    background: rgba(20, 14, 10, 0.85);
+    border-radius: 6px;
+    border: 1px solid rgba(248, 168, 74, 0.25);
+}
+
+.table-scroll-wrapper::-webkit-scrollbar-thumb {
+    background: #f8a84a;
+    border-radius: 6px;
+    border: 2px solid rgba(20, 14, 10, 0.85);
+    transition: background-color 0.2s ease;
+}
+
+.table-scroll-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #e6952a;
+}
+
+.table-scroll-wrapper:focus-visible {
+    outline: 2px solid #f8a84a;
+    outline-offset: 2px;
 }
 
 .admin-table {
-    min-width: 1100px; /* Forces the table to be wide enough for all columns */
+    width: 100%;
+    min-width: 950px; /* Forces the table to be wide enough for all columns */
     border-collapse: collapse;
 }
 

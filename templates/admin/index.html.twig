@@ -86,42 +86,44 @@
                     <h2 style="margin: 0; color: #f8a84a; font-size: 22px;">Recent User Accounts</h2>
                     <a href="{{ path('app_admin_users') }}" style="color: #f8a84a; text-decoration: none; font-size: 13px;">View All Users &rarr;</a>
                 </div>
-                <table class="admin-table" style="color: #fff;">
-                    <thead>
-                        <tr style="background: rgba(248, 168, 74, 0.15); color: #f8a84a;">
-                            <th>ID</th>
-                            <th>Username</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for user in recentUsers %}
-                            <tr>
-                                <td>#{{ user.id }}</td>
-                                <td><strong>{{ user.username }}</strong></td>
-                                <td>{{ user.email }}</td>
-                                <td>
-                                    {% if 'ROLE_ADMIN' in user.roles %}
-                                        <span style="background: #e74c3c; color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700;">ADMIN</span>
-                                    {% elseif 'ROLE_STAFF' in user.roles %}
-                                        <span style="background: #e67e22; color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700;">STAFF</span>
-                                    {% else %}
-                                        <span style="background: #27ae60; color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700;">CUSTOMER</span>
-                                    {% endif %}
-                                </td>
-                                <td>
-                                    {% if user.isActive %}
-                                        <span style="color: #2ecc71;"><i class="fas fa-check-circle"></i> Active</span>
-                                    {% else %}
-                                        <span style="color: #e74c3c;"><i class="fas fa-times-circle"></i> Deactivated</span>
-                                    {% endif %}
-                                </td>
+                <div class="table-scroll-wrapper" tabindex="0" role="region" aria-label="Recent User Accounts table">
+                    <table class="admin-table" style="color: #fff; width: 100%;">
+                        <thead>
+                            <tr style="background: rgba(248, 168, 74, 0.15); color: #f8a84a;">
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Status</th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {% for user in recentUsers %}
+                                <tr>
+                                    <td>#{{ user.id }}</td>
+                                    <td><strong>{{ user.username }}</strong></td>
+                                    <td>{{ user.email }}</td>
+                                    <td>
+                                        {% if 'ROLE_ADMIN' in user.roles %}
+                                            <span style="background: #e74c3c; color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700;">ADMIN</span>
+                                        {% elseif 'ROLE_STAFF' in user.roles %}
+                                            <span style="background: #e67e22; color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700;">STAFF</span>
+                                        {% else %}
+                                            <span style="background: #27ae60; color: #fff; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 700;">CUSTOMER</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        {% if user.isActive %}
+                                            <span style="color: #2ecc71;"><i class="fas fa-check-circle"></i> Active</span>
+                                        {% else %}
+                                            <span style="color: #e74c3c;"><i class="fas fa-times-circle"></i> Deactivated</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
             {# Recent Comments Preview #}
@@ -130,40 +132,42 @@
                     <h2 style="margin: 0; color: #f8a84a; font-size: 22px;">Recent Customer Reviews</h2>
                     <a href="{{ path('app_admin_comments') }}" style="color: #f8a84a; text-decoration: none; font-size: 13px;">Manage All Reviews &rarr;</a>
                 </div>
-                <table class="admin-table" style="color: #fff;">
-                    <thead>
-                        <tr style="background: rgba(248, 168, 74, 0.15); color: #f8a84a;">
-                            <th>ID</th>
-                            <th>Customer</th>
-                            <th>Rating</th>
-                            <th>Comment</th>
-                            <th>Visibility</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for comment in recentComments %}
-                            <tr>
-                                <td>#{{ comment.id }}</td>
-                                <td>{{ comment.customer ? comment.customer.username : 'Unknown' }}</td>
-                                <td style="color: #f8a84a;">
-                                    {% for i in 1..5 %}
-                                        <i class="{{ i <= comment.rating ? 'fas fa-star' : 'far fa-star' }}"></i>
-                                    {% endfor %}
-                                </td>
-                                <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                    {{ comment.comment }}
-                                </td>
-                                <td>
-                                    {% if comment.isHidden %}
-                                        <span style="background: rgba(231, 76, 60, 0.2); color: #e74c3c; padding: 3px 8px; border-radius: 4px; font-size: 11px;">Hidden</span>
-                                    {% else %}
-                                        <span style="background: rgba(46, 204, 113, 0.2); color: #2ecc71; padding: 3px 8px; border-radius: 4px; font-size: 11px;">Visible</span>
-                                    {% endif %}
-                                </td>
+                <div class="table-scroll-wrapper" tabindex="0" role="region" aria-label="Recent Customer Reviews table">
+                    <table class="admin-table" style="color: #fff; width: 100%;">
+                        <thead>
+                            <tr style="background: rgba(248, 168, 74, 0.15); color: #f8a84a;">
+                                <th>ID</th>
+                                <th>Customer</th>
+                                <th>Rating</th>
+                                <th>Comment</th>
+                                <th>Visibility</th>
                             </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            {% for comment in recentComments %}
+                                <tr>
+                                    <td>#{{ comment.id }}</td>
+                                    <td>{{ comment.customer ? comment.customer.username : 'Unknown' }}</td>
+                                    <td style="color: #f8a84a;">
+                                        {% for i in 1..5 %}
+                                            <i class="{{ i <= comment.rating ? 'fas fa-star' : 'far fa-star' }}"></i>
+                                        {% endfor %}
+                                    </td>
+                                    <td style="max-width: 300px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                        {{ comment.comment }}
+                                    </td>
+                                    <td>
+                                        {% if comment.isHidden %}
+                                            <span style="background: rgba(231, 76, 60, 0.2); color: #e74c3c; padding: 3px 8px; border-radius: 4px; font-size: 11px;">Hidden</span>
+                                        {% else %}
+                                            <span style="background: rgba(46, 204, 113, 0.2); color: #2ecc71; padding: 3px 8px; border-radius: 4px; font-size: 11px;">Visible</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
         </main>
