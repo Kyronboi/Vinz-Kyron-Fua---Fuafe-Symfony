@@ -44,21 +44,22 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 40px;
-    position: absolute;
+    padding: 15px 35px;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 10;
-    background: transparent;
-    /* Make it a reference for absolute positioning */
-    position: relative; 
+    z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.88);
+    box-sizing: border-box;
+    backdrop-filter: blur(8px);
 }
 
 .logo-group {
     display: flex;
     align-items: center;
     gap: 15px;
+    flex-shrink: 0;
 }
 
 .logo-icon img {
@@ -92,28 +93,26 @@ a, a:visited, a:hover, a:active {
     text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
 }
 
-/* Position the nav links independently */
+/* Position the nav links cleanly in flex flow */
 .nav-links {
     display: flex;
-    gap: 30px;
+    gap: 24px;
     align-items: center;
-    
-    /* Absolutely position it */
-    position: absolute;
-    left: 50%; /* Centers it based on the header's width */
-    transform: translateX(calc(-50% + 225px));
-    
-    /* Adjust translateX to nudge links left or right:
-       - Use translateX(-50%) to keep it centered
-       - Use translateX(calc(-50% - 30px)) to nudge it further left away from the cart */
+    justify-content: center;
+    flex: 1;
+    margin: 0 20px;
+    white-space: nowrap;
 }
 
 .nav-links a {
     color: #ffffff;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 500;
     transition: color 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .nav-links a.active {
@@ -297,8 +296,29 @@ a, a:visited, a:hover, a:active {
     opacity: 1;
 }
 
-/* Responsive (optional) */
+/* Responsive Header & Hero */
 @media (max-width: 1200px) {
+    .navbar {
+        padding: 12px 20px;
+    }
+    .welcome-text {
+        font-size: 15px;
+    }
+    .nav-links {
+        gap: 16px;
+        margin: 0 10px;
+    }
+    .nav-links a {
+        font-size: 14px;
+    }
+    .header-actions {
+        gap: 14px;
+    }
+    .btn-signin,
+    .btn-logout {
+        padding: 8px 18px;
+        font-size: 14px;
+    }
     .hero-content {
         flex-direction: column;
         align-items: flex-start;
@@ -309,6 +329,25 @@ a, a:visited, a:hover, a:active {
     }
     .menu-cards-container {
         flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 860px) {
+    .navbar {
+        padding: 10px 15px;
+        flex-wrap: wrap;
+    }
+    .nav-links {
+        order: 3;
+        width: 100%;
+        margin: 10px 0 0 0;
+        justify-content: center;
+        gap: 14px;
+        overflow-x: auto;
+        padding-bottom: 4px;
+    }
+    body {
+        padding-top: 110px;
     }
 }
 
@@ -813,15 +852,6 @@ a, a:visited, a:hover, a:active {
     text-decoration: none;
 }
 
-/* Fix for header on menu page (static background) */
-.navbar {
-    background-color: rgba(0,0,0,0.8);
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-}
 
 /* Add padding to body so content doesn't hide under fixed header */
 body {
@@ -1091,33 +1121,62 @@ body {
     }
 }
 
-/* Cart Section */
+/* Cart & Header Actions */
 /* Header Actions Container */
 .header-actions {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 18px;
+    flex-shrink: 0;
+}
+
+/* User Profile Icon */
+.profile-icon {
+    color: #f8a84a;
+    font-size: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.profile-icon:hover {
+    color: #ffffff;
+    transform: scale(1.1);
 }
 
 /* Cart Icon */
 .cart-icon {
     position: relative;
-    color: #fff;
-    font-size: 24px;
+    color: #ffffff;
+    font-size: 22px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     text-decoration: none;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.cart-icon:hover {
+    color: #f8a84a;
+    transform: scale(1.08);
 }
 
 .cart-count {
     position: absolute;
-    top: -10px;
+    top: -8px;
     right: -10px;
     background-color: #f8a84a;
-    color: #fff;
-    font-size: 12px;
+    color: #ffffff;
+    font-size: 11px;
     font-weight: bold;
     border-radius: 50%;
-    padding: 2px 6px;
-    min-width: 18px;
+    padding: 2px 5px;
+    min-width: 16px;
+    height: 16px;
+    line-height: 12px;
+    box-sizing: border-box;
     text-align: center;
 }
 

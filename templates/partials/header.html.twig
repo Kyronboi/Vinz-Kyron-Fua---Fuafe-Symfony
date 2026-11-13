@@ -38,7 +38,7 @@
             {% for item in app.user.cartItems %}
                 {% set cartCount = cartCount + item.quantity %}
             {% endfor %}
-            <a href="{{ path('app_profile') }}" class="cart-icon" title="My Profile" style="font-size: 20px; margin-right: 5px;">
+            <a href="{{ path('app_profile') }}" class="profile-icon" title="My Profile">
                 <i class="fas fa-user-circle"></i>
             </a>
             <a href="{{ path('app_cart') }}" class="cart-icon">
