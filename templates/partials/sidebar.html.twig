@@ -1,18 +1,22 @@
+{% set currentRoute = app.request.attributes.get('_route') %}
 <aside class="admin-sidebar">
     <div class="admin-sidebar-brand">
-        <i class="fas fa-mug-hot"></i>
+        <i class="fas fa-mug-hot" style="color: #f8a84a;"></i>
         <span>Admin Panel</span>
     </div>
 
     <nav class="admin-sidebar-nav">
-        <a href="#section-add-product" class="admin-nav-item active">
-            <i class="fas fa-plus-circle"></i> Add Product
+        <a href="{{ path('app_admin') }}" class="admin-nav-item {{ currentRoute == 'app_admin' ? 'active' : '' }}">
+            <i class="fas fa-tachometer-alt"></i> Dashboard
         </a>
-        <a href="#section-inventory" class="admin-nav-item">
-            <i class="fas fa-boxes-stacked"></i> Inventory
+        <a href="{{ path('app_admin_users') }}" class="admin-nav-item {{ currentRoute starts with 'app_admin_user' ? 'active' : '' }}">
+            <i class="fas fa-users-cog"></i> Users & Staff
         </a>
-        <a href="{{ path('app_comments') }}" class="admin-nav-item">
-            <i class="fas fa-comments"></i> Comments
+        <a href="{{ path('app_admin_products') }}" class="admin-nav-item {{ currentRoute starts with 'app_admin_product' ? 'active' : '' }}">
+            <i class="fas fa-coffee"></i> Products
+        </a>
+        <a href="{{ path('app_admin_comments') }}" class="admin-nav-item {{ currentRoute starts with 'app_admin_comment' ? 'active' : '' }}">
+            <i class="fas fa-comments"></i> Reviews
         </a>
     </nav>
 
@@ -22,4 +26,3 @@
         </a>
     </div>
 </aside>
-

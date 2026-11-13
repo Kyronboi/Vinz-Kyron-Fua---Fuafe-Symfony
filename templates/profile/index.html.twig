@@ -1,0 +1,206 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Profile - Fuafe Coffee Shop{% endblock %}
+
+{% block body %}
+<section class="admin-section" style="padding-top: 100px; min-height: 85vh;">
+    <div style="max-width: 1100px; margin: 0 auto; padding: 20px;">
+
+        {# Header #}
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
+            <div>
+                <a href="{{ path('app_home') }}" style="color: #f8a84a; text-decoration: none; font-size: 14px; display: inline-flex; align-items: center; gap: 6px;">
+                    <i class="fas fa-arrow-left"></i> Back to Homepage
+                </a>
+                <h1 style="color: #fff; font-size: 30px; margin: 8px 0 0 0; display: flex; align-items: center; gap: 12px;">
+                    <i class="fas fa-user-circle" style="color: #f8a84a;"></i> Customer Profile
+                </h1>
+            </div>
+            <div>
+                {% if is_granted('ROLE_ADMIN') %}
+                    <span style="background: #e74c3c; color: #fff; padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 13px;">ADMINISTRATOR</span>
+                {% elseif is_granted('ROLE_STAFF') %}
+                    <span style="background: #e67e22; color: #fff; padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 13px;">STAFF MEMBER</span>
+                {% else %}
+                    <span style="background: #27ae60; color: #fff; padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 13px;">VALUED CUSTOMER</span>
+                {% endif %}
+            </div>
+        </div>
+
+        {# Flash Messages #}
+        {% for message in app.flashes('success') %}
+            <div style="background: #27ae60; color: #fff; padding: 12px 20px; border-radius: 6px; margin-bottom: 20px; font-weight: 500;">
+                <i class="fas fa-check-circle" style="margin-right: 8px;"></i> {{ message }}
+            </div>
+        {% endfor %}
+        {% for message in app.flashes('error') %}
+            <div style="background: #e74c3c; color: #fff; padding: 12px 20px; border-radius: 6px; margin-bottom: 20px; font-weight: 500;">
+                <i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i> {{ message }}
+            </div>
+        {% endfor %}
+
+        {# Profile Grid #}
+        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 25px; align-items: start;">
+
+            {# Left Column: Profile Card #}
+            <div>
+                <div class="admin-panel" style="background: rgba(25, 18, 14, 0.95); border: 1px solid rgba(248, 168, 74, 0.3); border-radius: 12px; padding: 25px; text-align: center;">
+                    <div style="width: 80px; height: 80px; margin: 0 auto 15px auto; border-radius: 50%; background: rgba(248, 168, 74, 0.15); border: 2px solid #f8a84a; display: flex; align-items: center; justify-content: center; font-size: 40px; color: #f8a84a;">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <h2 style="color: #fff; font-size: 22px; margin: 0 0 5px 0; font-family: 'Poppins', sans-serif;">{{ user.username }}</h2>
+                    <p style="color: #aaa; font-size: 14px; margin: 0 0 15px 0;">{{ user.email }}</p>
+
+                    <div style="text-align: left; border-top: 1px solid rgba(255, 255, 255, 0.1); padding-top: 15px; margin-top: 15px; display: flex; flex-direction: column; gap: 10px; font-size: 14px;">
+                        <div>
+                            <span style="color: #888;">Age:</span>
+                            <strong style="color: #fff; margin-left: 8px;">{{ user.age }} years old</strong>
+                        </div>
+                        <div>
+                            <span style="color: #888;">Delivery Location:</span>
+                            <strong style="color: #fff; margin-left: 8px;">{{ user.location }}</strong>
+                        </div>
+                        <div>
+                            <span style="color: #888;">Member Since:</span>
+                            <strong style="color: #fff; margin-left: 8px;">{{ user.createdAt ? user.createdAt|date('F Y') : 'Recent' }}</strong>
+                        </div>
+                    </div>
+                </div>
+
+                {# Quick Cart Status #}
+                <div class="admin-panel" style="background: rgba(25, 18, 14, 0.95); border: 1px solid rgba(248, 168, 74, 0.2); border-radius: 12px; padding: 20px; margin-top: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                        <span style="color: #f8a84a; font-weight: 600; font-size: 15px;">
+                            <i class="fas fa-shopping-cart"></i> Current Cart
+                        </span>
+                        <span style="background: rgba(248, 168, 74, 0.2); color: #f8a84a; padding: 2px 8px; border-radius: 10px; font-size: 12px; font-weight: 600;">
+                            {{ cartItems|length }} item(s)
+                        </span>
+                    </div>
+                    {% if cartItems|length > 0 %}
+                        <p style="color: #ddd; font-size: 14px; margin: 0 0 12px 0;">
+                            Cart Subtotal: <strong style="color: #2ecc71;">₱{{ cartTotal|number_format(2) }}</strong>
+                        </p>
+                        <a href="{{ path('app_cart') }}" class="btn-auth" style="display: block; text-align: center; text-decoration: none; padding: 8px; font-size: 13px;">
+                            Proceed to Cart & Checkout &rarr;
+                        </a>
+                    {% else %}
+                        <p style="color: #888; font-size: 13px; margin: 0 0 10px 0;">Your coffee cart is empty.</p>
+                        <a href="{{ path('app_menu') }}" style="color: #f8a84a; font-size: 13px; text-decoration: none;">Browse Menu &rarr;</a>
+                    {% endif %}
+                </div>
+            </div>
+
+            {# Right Column: Edit Profile & Password Form #}
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+
+                {# Edit Profile Details #}
+                <div class="admin-panel" style="background: rgba(25, 18, 14, 0.95); border: 1px solid rgba(248, 168, 74, 0.25); border-radius: 12px; padding: 25px;">
+                    <h2 style="color: #f8a84a; font-size: 20px; margin: 0 0 15px 0; font-family: 'Poppins', sans-serif;">
+                        <i class="fas fa-edit"></i> Edit Profile Information
+                    </h2>
+                    <form method="POST" action="{{ path('app_profile_update') }}" style="display: flex; flex-direction: column; gap: 15px;">
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('profile_update') }}">
+
+                        <div>
+                            <label for="profile_username" style="display: block; color: #ddd; font-size: 13px; margin-bottom: 5px; font-weight: 600;">Username / Full Name *</label>
+                            <input type="text" id="profile_username" name="username" value="{{ user.username }}" required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #555; background: rgba(0,0,0,0.3); color: #fff;">
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 15px;">
+                            <div>
+                                <label for="profile_age" style="display: block; color: #ddd; font-size: 13px; margin-bottom: 5px; font-weight: 600;">Age (Max 100) *</label>
+                                <input type="number" id="profile_age" name="age" min="1" max="100" value="{{ user.age }}" required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #555; background: rgba(0,0,0,0.3); color: #fff;">
+                                <small style="color: #888; font-size: 11px;">Must be &le; 100 years old</small>
+                            </div>
+                            <div>
+                                <label for="profile_location" style="display: block; color: #ddd; font-size: 13px; margin-bottom: 5px; font-weight: 600;">Delivery Location *</label>
+                                <input type="text" id="profile_location" name="location" value="{{ user.location }}" required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #555; background: rgba(0,0,0,0.3); color: #fff;">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label style="display: block; color: #888; font-size: 13px; margin-bottom: 5px;">Email Address (Primary Account ID)</label>
+                            <input type="text" value="{{ user.email }}" disabled style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #444; background: rgba(0,0,0,0.5); color: #888; cursor: not-allowed;">
+                        </div>
+
+                        <div>
+                            <button type="submit" class="btn-auth" style="padding: 10px 24px; font-weight: 600;">
+                                <i class="fas fa-save"></i> Save Profile Details
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                {# Change Password #}
+                <div class="admin-panel" style="background: rgba(25, 18, 14, 0.95); border: 1px solid rgba(248, 168, 74, 0.25); border-radius: 12px; padding: 25px;">
+                    <h2 style="color: #f8a84a; font-size: 20px; margin: 0 0 15px 0; font-family: 'Poppins', sans-serif;">
+                        <i class="fas fa-lock"></i> Security & Password
+                    </h2>
+                    <form method="POST" action="{{ path('app_profile_change_password') }}" style="display: flex; flex-direction: column; gap: 15px;">
+                        <input type="hidden" name="_csrf_token" value="{{ csrf_token('profile_password') }}">
+
+                        <div>
+                            <label for="current_password" style="display: block; color: #ddd; font-size: 13px; margin-bottom: 5px; font-weight: 600;">Current Password *</label>
+                            <input type="password" id="current_password" name="current_password" required placeholder="Enter your current password" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #555; background: rgba(0,0,0,0.3); color: #fff;">
+                        </div>
+
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                            <div>
+                                <label for="new_password" style="display: block; color: #ddd; font-size: 13px; margin-bottom: 5px; font-weight: 600;">New Password *</label>
+                                <input type="password" id="new_password" name="new_password" minlength="6" required placeholder="Min 6 characters" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #555; background: rgba(0,0,0,0.3); color: #fff;">
+                            </div>
+                            <div>
+                                <label for="confirm_password" style="display: block; color: #ddd; font-size: 13px; margin-bottom: 5px; font-weight: 600;">Confirm New Password *</label>
+                                <input type="password" id="confirm_password" name="confirm_password" minlength="6" required placeholder="Re-type new password" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #555; background: rgba(0,0,0,0.3); color: #fff;">
+                            </div>
+                        </div>
+
+                        <div>
+                            <button type="submit" class="btn-auth" style="padding: 10px 24px; font-weight: 600;">
+                                <i class="fas fa-key"></i> Update Password
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                {# Customer Reviews History #}
+                <div class="admin-panel" style="background: rgba(25, 18, 14, 0.95); border: 1px solid rgba(248, 168, 74, 0.25); border-radius: 12px; padding: 25px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h2 style="color: #f8a84a; font-size: 20px; margin: 0; font-family: 'Poppins', sans-serif;">
+                            <i class="fas fa-comment-alt"></i> My Reviews & Feedback ({{ userComments|length }})
+                        </h2>
+                        <a href="{{ path('app_comment_add') }}" style="color: #f8a84a; font-size: 13px; text-decoration: none;">
+                            <i class="fas fa-plus"></i> Write a Review
+                        </a>
+                    </div>
+                    {% if userComments|length > 0 %}
+                        <div style="display: flex; flex-direction: column; gap: 12px;">
+                            {% for comment in userComments %}
+                                <div style="background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 8px; padding: 14px;">
+                                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                                        <div style="color: #f8a84a;">
+                                            {% for i in 1..5 %}
+                                                <i class="{{ i <= comment.rating ? 'fas fa-star' : 'far fa-star' }}"></i>
+                                            {% endfor %}
+                                        </div>
+                                        <span style="color: #888; font-size: 12px;">
+                                            {{ comment.createdAt ? comment.createdAt|date('M d, Y') : '' }}
+                                        </span>
+                                    </div>
+                                    <p style="color: #ddd; margin: 0; font-size: 14px; line-height: 1.5;">{{ comment.comment }}</p>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <p style="color: #aaa; font-size: 14px; margin: 0;">You haven't written any coffee reviews yet. Share your experience with us!</p>
+                    {% endif %}
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+</section>
+{% endblock %}

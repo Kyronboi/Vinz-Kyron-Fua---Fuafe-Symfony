@@ -1,0 +1,79 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Create New User - Admin Panel{% endblock %}
+
+{% block body %}
+<section class="admin-section" style="padding-top: 90px; min-height: 85vh;">
+    <div class="admin-layout">
+
+        {% include 'partials/sidebar.html.twig' %}
+
+        <main class="admin-main">
+            <div style="margin-bottom: 25px;">
+                <a href="{{ path('app_admin_users') }}" style="color: #f8a84a; text-decoration: none; font-size: 14px; display: inline-flex; align-items: center; gap: 6px;">
+                    <i class="fas fa-arrow-left"></i> Back to User Management
+                </a>
+                <h1 class="page-title" style="margin: 10px 0 5px 0; font-size: 28px;">Create New User Account</h1>
+                <p style="color: #bbb; margin: 0;">Add a new customer, barista staff member, or administrator to the system.</p>
+            </div>
+
+            {% for message in app.flashes('error') %}
+                <div style="background: #e74c3c; color: #fff; padding: 12px 20px; border-radius: 6px; margin-bottom: 20px; font-weight: 500;">
+                    <i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i> {{ message }}
+                </div>
+            {% endfor %}
+
+            <div class="admin-panel" style="background: rgba(25, 18, 14, 0.95); border: 1px solid rgba(248, 168, 74, 0.25); border-radius: 12px; padding: 30px; max-width: 700px;">
+                <form method="POST" action="{{ path('app_admin_user_new') }}" style="display: flex; flex-direction: column; gap: 18px;">
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('admin_user_new') }}">
+
+                    <div>
+                        <label for="username" style="display: block; color: #f8a84a; font-weight: 600; margin-bottom: 6px;">Full Name / Username *</label>
+                        <input type="text" id="username" name="username" value="{{ formData.username|default('') }}" required placeholder="e.g. Juan dela Cruz" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #555; background: rgba(0,0,0,0.3); color: #fff;">
+                    </div>
+
+                    <div>
+                        <label for="email" style="display: block; color: #f8a84a; font-weight: 600; margin-bottom: 6px;">Email Address *</label>
+                        <input type="email" id="email" name="email" value="{{ formData.email|default('') }}" required placeholder="juan@example.com" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #555; background: rgba(0,0,0,0.3); color: #fff;">
+                    </div>
+
+                    <div>
+                        <label for="role" style="display: block; color: #f8a84a; font-weight: 600; margin-bottom: 6px;">Account Role *</label>
+                        <select id="role" name="role" required style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #555; background: #221510; color: #fff; font-size: 14px;">
+                            <option value="ROLE_USER" {{ (formData.role|default('ROLE_USER')) == 'ROLE_USER' ? 'selected' : '' }}>Customer (Standard User)</option>
+                            <option value="ROLE_STAFF" {{ (formData.role|default('')) == 'ROLE_STAFF' ? 'selected' : '' }}>Staff (Barista / Product Manager)</option>
+                            <option value="ROLE_ADMIN" {{ (formData.role|default('')) == 'ROLE_ADMIN' ? 'selected' : '' }}>Administrator (Full Access)</option>
+                        </select>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: 1fr 2fr; gap: 15px;">
+                        <div>
+                            <label for="age" style="display: block; color: #f8a84a; font-weight: 600; margin-bottom: 6px;">Age</label>
+                            <input type="number" id="age" name="age" min="13" max="100" value="{{ formData.age|default(25) }}" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #555; background: rgba(0,0,0,0.3); color: #fff;">
+                        </div>
+                        <div>
+                            <label for="location" style="display: block; color: #f8a84a; font-weight: 600; margin-bottom: 6px;">Location</label>
+                            <input type="text" id="location" name="location" value="{{ formData.location|default('Dumaguete City') }}" placeholder="e.g. Piapi, Dumaguete" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #555; background: rgba(0,0,0,0.3); color: #fff;">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label for="password" style="display: block; color: #f8a84a; font-weight: 600; margin-bottom: 6px;">Initial Password *</label>
+                        <input type="password" id="password" name="password" required placeholder="Minimum 6 characters" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #555; background: rgba(0,0,0,0.3); color: #fff;">
+                    </div>
+
+                    <div style="display: flex; gap: 12px; margin-top: 10px;">
+                        <button type="submit" class="btn-auth" style="flex: 2; padding: 12px; font-weight: 600;">
+                            <i class="fas fa-check"></i> Create Account
+                        </button>
+                        <a href="{{ path('app_admin_users') }}" style="flex: 1; text-align: center; text-decoration: none; padding: 12px; color: #ccc; border: 1px solid #555; border-radius: 6px; display: flex; align-items: center; justify-content: center;">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+            </div>
+
+        </main>
+    </div>
+</section>
+{% endblock %}

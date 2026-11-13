@@ -12,6 +12,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Range;
 
 class RegistrationFormType extends AbstractType
 {
@@ -29,8 +30,18 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('age', IntegerType::class, [
+                'attr' => [
+                    'min' => 1,
+                    'max' => 100,
+                    'placeholder' => 'e.g. 21',
+                ],
                 'constraints' => [
                     new NotBlank(message: 'Please enter your age'),
+                    new Range(
+                        min: 1,
+                        max: 100,
+                        notInRangeMessage: 'Age cannot be over {{ max }} years old (must be between {{ min }} and {{ max }})',
+                    ),
                 ],
             ])
             ->add('location', TextType::class, [

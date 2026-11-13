@@ -1,0 +1,127 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User Management - Admin Panel{% endblock %}
+
+{% block body %}
+<section class="admin-section" style="padding-top: 90px; min-height: 85vh;">
+    <div class="admin-layout">
+
+        {% include 'partials/sidebar.html.twig' %}
+
+        <main class="admin-main">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
+                <div>
+                    <h1 class="page-title" style="margin: 0; font-size: 28px;">User & Staff Management</h1>
+                    <p style="color: #bbb; margin-top: 5px;">Manage customer accounts, barista staff, and system administrators.</p>
+                </div>
+                <a href="{{ path('app_admin_user_new') }}" class="btn-auth" style="padding: 10px 20px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-user-plus"></i> Create New User / Staff
+                </a>
+            </div>
+
+            {% for message in app.flashes('success') %}
+                <div style="background: #27ae60; color: #fff; padding: 12px 20px; border-radius: 6px; margin-bottom: 20px; font-weight: 500;">
+                    <i class="fas fa-check-circle" style="margin-right: 8px;"></i> {{ message }}
+                </div>
+            {% endfor %}
+            {% for message in app.flashes('error') %}
+                <div style="background: #e74c3c; color: #fff; padding: 12px 20px; border-radius: 6px; margin-bottom: 20px; font-weight: 500;">
+                    <i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i> {{ message }}
+                </div>
+            {% endfor %}
+
+            <div class="admin-panel" style="background: rgba(25, 18, 14, 0.95); border: 1px solid rgba(248, 168, 74, 0.25); border-radius: 12px; padding: 25px;">
+                <div class="table-scroll-wrapper" style="overflow-x: auto;">
+                    <table class="admin-table" style="color: #fff; width: 100%;">
+                        <thead>
+                            <tr style="background: rgba(248, 168, 74, 0.15); color: #f8a84a;">
+                                <th style="padding: 12px;">ID</th>
+                                <th style="padding: 12px;">Username</th>
+                                <th style="padding: 12px;">Email</th>
+                                <th style="padding: 12px;">Role</th>
+                                <th style="padding: 12px;">Status</th>
+                                <th style="padding: 12px;">Location</th>
+                                <th style="padding: 12px;">Created</th>
+                                <th style="padding: 12px; text-align: center;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                                <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
+                                    <td style="padding: 12px;"><strong>#{{ user.id }}</strong></td>
+                                    <td style="padding: 12px;">
+                                        <strong>{{ user.username }}</strong>
+                                        {% if user.id == app.user.id %}
+                                            <span style="color: #f8a84a; font-size: 11px; margin-left: 5px;">(You)</span>
+                                        {% endif %}
+                                    </td>
+                                    <td style="padding: 12px;">{{ user.email }}</td>
+                                    <td style="padding: 12px;">
+                                        {% if 'ROLE_ADMIN' in user.roles %}
+                                            <span style="background: #e74c3c; color: #fff; padding: 3px 9px; border-radius: 12px; font-size: 11px; font-weight: 700;">ADMIN</span>
+                                        {% elseif 'ROLE_STAFF' in user.roles %}
+                                            <span style="background: #e67e22; color: #fff; padding: 3px 9px; border-radius: 12px; font-size: 11px; font-weight: 700;">STAFF</span>
+                                        {% else %}
+                                            <span style="background: #27ae60; color: #fff; padding: 3px 9px; border-radius: 12px; font-size: 11px; font-weight: 700;">CUSTOMER</span>
+                                        {% endif %}
+                                    </td>
+                                    <td style="padding: 12px;">
+                                        {% if user.isActive %}
+                                            <span style="background: rgba(46, 204, 113, 0.2); color: #2ecc71; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">
+                                                <i class="fas fa-check-circle"></i> Active
+                                            </span>
+                                        {% else %}
+                                            <span style="background: rgba(231, 76, 60, 0.2); color: #e74c3c; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: 600;">
+                                                <i class="fas fa-ban"></i> Deactivated
+                                            </span>
+                                        {% endif %}
+                                    </td>
+                                    <td style="padding: 12px; color: #ccc;">{{ user.location }}</td>
+                                    <td style="padding: 12px; color: #aaa; font-size: 12px;">
+                                        {{ user.createdAt ? user.createdAt|date('M d, Y') : 'N/A' }}
+                                    </td>
+                                    <td style="padding: 12px; text-align: center;">
+                                        <div style="display: inline-flex; gap: 6px; align-items: center;">
+                                            {# Edit Button #}
+                                            <a href="{{ path('app_admin_user_edit', {id: user.id}) }}" class="btn-small" style="text-decoration: none; background: #f8a84a; color: #1a0f0a; font-weight: 600; padding: 6px 10px; border-radius: 4px; font-size: 12px;">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </a>
+
+                                            {# Toggle Active/Deactivate Button #}
+                                            {% if user.id != app.user.id %}
+                                                <form method="POST" action="{{ path('app_admin_user_toggle_active', {id: user.id}) }}" style="display: inline;">
+                                                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('toggle_active_' ~ user.id) }}">
+                                                    {% if user.isActive %}
+                                                        <button type="submit" class="btn-small" style="background: #e67e22; color: #fff; padding: 6px 10px; border-radius: 4px; font-size: 12px;" onclick="return confirm('Deactivate account for {{ user.username }}? They will not be able to log in.');">
+                                                            <i class="fas fa-user-slash"></i> Deactivate
+                                                        </button>
+                                                    {% else %}
+                                                        <button type="submit" class="btn-small" style="background: #27ae60; color: #fff; padding: 6px 10px; border-radius: 4px; font-size: 12px;">
+                                                            <i class="fas fa-user-check"></i> Activate
+                                                        </button>
+                                                    {% endif %}
+                                                </form>
+
+                                                {# Delete Button #}
+                                                <form method="POST" action="{{ path('app_admin_user_delete', {id: user.id}) }}" style="display: inline;" onsubmit="return confirm('Are you sure you want to permanently delete user {{ user.username }}?');">
+                                                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('delete_user_' ~ user.id) }}">
+                                                    <button type="submit" class="btn-danger" style="padding: 6px 10px; border-radius: 4px; font-size: 12px; margin: 0;">
+                                                        <i class="fas fa-trash-alt"></i> Delete
+                                                    </button>
+                                                </form>
+                                            {% else %}
+                                                <span style="color: #777; font-size: 11px; font-style: italic;">(Current Account)</span>
+                                            {% endif %}
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</section>
+{% endblock %}

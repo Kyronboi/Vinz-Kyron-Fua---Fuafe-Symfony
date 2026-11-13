@@ -1,0 +1,110 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Product Management - Admin Panel{% endblock %}
+
+{% block body %}
+<section class="admin-section" style="padding-top: 90px; min-height: 85vh;">
+    <div class="admin-layout">
+
+        {% include 'partials/sidebar.html.twig' %}
+
+        <main class="admin-main">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; flex-wrap: wrap; gap: 15px;">
+                <div>
+                    <h1 class="page-title" style="margin: 0; font-size: 28px;">Global Product Management</h1>
+                    <p style="color: #bbb; margin-top: 5px;">As an administrator, you have full authority to add, update, or remove any menu product.</p>
+                </div>
+                <a href="{{ path('app_staff_product_new') }}" class="btn-auth" style="padding: 10px 20px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-plus"></i> Add New Product
+                </a>
+            </div>
+
+            {% for message in app.flashes('success') %}
+                <div style="background: #27ae60; color: #fff; padding: 12px 20px; border-radius: 6px; margin-bottom: 20px; font-weight: 500;">
+                    <i class="fas fa-check-circle" style="margin-right: 8px;"></i> {{ message }}
+                </div>
+            {% endfor %}
+            {% for message in app.flashes('error') %}
+                <div style="background: #e74c3c; color: #fff; padding: 12px 20px; border-radius: 6px; margin-bottom: 20px; font-weight: 500;">
+                    <i class="fas fa-exclamation-triangle" style="margin-right: 8px;"></i> {{ message }}
+                </div>
+            {% endfor %}
+
+            <div class="admin-panel" style="background: rgba(25, 18, 14, 0.95); border: 1px solid rgba(248, 168, 74, 0.25); border-radius: 12px; padding: 25px;">
+                <div class="table-scroll-wrapper" style="overflow-x: auto;">
+                    <table class="admin-table" style="color: #fff; width: 100%;">
+                        <thead>
+                            <tr style="background: rgba(248, 168, 74, 0.15); color: #f8a84a;">
+                                <th style="padding: 12px;">ID</th>
+                                <th style="padding: 12px;">Image</th>
+                                <th style="padding: 12px;">Name</th>
+                                <th style="padding: 12px;">Sizes & Prices</th>
+                                <th style="padding: 12px;">Stock</th>
+                                <th style="padding: 12px;">Created By</th>
+                                <th style="padding: 12px; text-align: center;">Admin Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in products %}
+                                <tr style="border-bottom: 1px solid rgba(255, 255, 255, 0.08);">
+                                    <td style="padding: 12px;"><strong>#{{ product.id }}</strong></td>
+                                    <td style="padding: 12px;">
+                                        <img src="{{ asset(product.imagePath) }}" alt="{{ product.name }}" style="width: 48px; height: 48px; object-fit: cover; border-radius: 6px; border: 1px solid rgba(255,255,255,0.1);">
+                                    </td>
+                                    <td style="padding: 12px;">
+                                        <div style="font-weight: 600; color: #fff;">{{ product.name }}</div>
+                                        <div style="color: #aaa; font-size: 12px; max-width: 240px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                            {{ product.description }}
+                                        </div>
+                                    </td>
+                                    <td style="padding: 12px;">
+                                        <div style="display: flex; flex-direction: column; gap: 3px; font-size: 13px;">
+                                            {% for size in product.sizes %}
+                                                <span><strong style="color: #f8a84a;">{{ size.sizeName }}:</strong> ₱{{ size.price }}</span>
+                                            {% else %}
+                                                <span>₱{{ product.price }}</span>
+                                            {% endfor %}
+                                        </div>
+                                    </td>
+                                    <td style="padding: 12px;">
+                                        {% if product.stock < 15 %}
+                                            <span style="background: rgba(231, 76, 60, 0.2); color: #e74c3c; padding: 4px 8px; border-radius: 4px; font-weight: 600; font-size: 12px;">
+                                                {{ product.stock }} (Low)
+                                            </span>
+                                        {% else %}
+                                            <span style="color: #2ecc71; font-weight: 600;">{{ product.stock }} in stock</span>
+                                        {% endif %}
+                                    </td>
+                                    <td style="padding: 12px;">
+                                        {% if product.createdBy %}
+                                            <span style="background: rgba(255, 255, 255, 0.08); color: #bbb; padding: 4px 10px; border-radius: 12px; font-size: 12px;">
+                                                <i class="fas fa-user-tag"></i> {{ product.createdBy.username }}
+                                            </span>
+                                        {% else %}
+                                            <span style="color: #888; font-size: 12px;">Unassigned</span>
+                                        {% endif %}
+                                    </td>
+                                    <td style="padding: 12px; text-align: center;">
+                                        <div style="display: inline-flex; gap: 6px;">
+                                            <a href="{{ path('app_staff_product_edit', {id: product.id}) }}" class="btn-small" style="text-decoration: none; background: #f8a84a; color: #1a0f0a; font-weight: 600; padding: 6px 12px; border-radius: 4px; font-size: 12px;">
+                                                <i class="fas fa-edit"></i> Edit
+                                            </a>
+                                            <form method="POST" action="{{ path('app_staff_product_delete', {id: product.id}) }}" style="display: inline;" onsubmit="return confirm('ADMIN ACTION: Are you sure you want to permanently delete {{ product.name }}?');">
+                                                <input type="hidden" name="_csrf_token" value="{{ csrf_token('delete_product_' ~ product.id) }}">
+                                                <button type="submit" class="btn-danger" style="padding: 6px 12px; border-radius: 4px; font-size: 12px; margin: 0;">
+                                                    <i class="fas fa-trash-alt"></i> Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </main>
+    </div>
+</section>
+{% endblock %}

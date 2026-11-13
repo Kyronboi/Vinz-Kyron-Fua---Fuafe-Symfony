@@ -6,14 +6,17 @@
             </div>
         </a>
         {% if app.user %}
-            <span class="welcome-text">
-                Welcome {{ app.user.username }}!
-                {% if is_granted('ROLE_ADMIN') %}
-                    <span style="background: #e74c3c; color: #fff; font-size: 11px; padding: 2px 7px; border-radius: 10px; margin-left: 6px; font-weight: 700;">ADMIN</span>
-                {% elseif is_granted('ROLE_STAFF') %}
-                    <span style="background: #e67e22; color: #fff; font-size: 11px; padding: 2px 7px; border-radius: 10px; margin-left: 6px; font-weight: 700;">STAFF</span>
-                {% endif %}
-            </span>
+            <a href="{{ path('app_profile') }}" style="text-decoration: none;" title="View Your Profile">
+                <span class="welcome-text">
+                    <i class="fas fa-user-circle" style="color: #f8a84a; margin-right: 4px;"></i>
+                    Welcome {{ app.user.username }}!
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <span style="background: #e74c3c; color: #fff; font-size: 11px; padding: 2px 7px; border-radius: 10px; margin-left: 6px; font-weight: 700;">ADMIN</span>
+                    {% elseif is_granted('ROLE_STAFF') %}
+                        <span style="background: #e67e22; color: #fff; font-size: 11px; padding: 2px 7px; border-radius: 10px; margin-left: 6px; font-weight: 700;">STAFF</span>
+                    {% endif %}
+                </span>
+            </a>
         {% endif %}
     </div>
     
@@ -35,6 +38,9 @@
             {% for item in app.user.cartItems %}
                 {% set cartCount = cartCount + item.quantity %}
             {% endfor %}
+            <a href="{{ path('app_profile') }}" class="cart-icon" title="My Profile" style="font-size: 20px; margin-right: 5px;">
+                <i class="fas fa-user-circle"></i>
+            </a>
             <a href="{{ path('app_cart') }}" class="cart-icon">
                 <i class="fas fa-shopping-cart"></i>
                 <span class="cart-count">{{ cartCount }}</span>

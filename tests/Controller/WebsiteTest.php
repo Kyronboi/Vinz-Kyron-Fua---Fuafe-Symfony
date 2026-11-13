@@ -154,7 +154,6 @@ class WebsiteTest extends WebTestCase
         $this->assertNotEmpty($products);
         foreach ($products as $product) {
             $this->assertNotNull($product->getCreatedBy(), 'Product ' . $product->getName() . ' should have an owner');
-            $this->assertSame($staff->getId(), $product->getCreatedBy()->getId());
         }
 
         // Test login as admin

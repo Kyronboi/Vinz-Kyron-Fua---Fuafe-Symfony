@@ -20,7 +20,7 @@
             {{ form_errors(registrationForm.email) }}
 
             <label for="{{ registrationForm.age.vars.id }}">Age</label>
-            {{ form_widget(registrationForm.age, {'attr': {'placeholder': 'e.g. 21'}}) }}
+            {{ form_widget(registrationForm.age, {'attr': {'placeholder': 'e.g. 21', 'min': 1, 'max': 100}}) }}
             {{ form_errors(registrationForm.age) }}
 
             <label for="{{ registrationForm.location.vars.id }}">Delivery Location</label>
