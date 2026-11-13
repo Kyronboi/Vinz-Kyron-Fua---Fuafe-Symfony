@@ -16,6 +16,37 @@ class CommentRepository extends ServiceEntityRepository
         parent::__construct($registry, Comment::class);
     }
 
+    /**
+     * Eagerly loads customer to eliminate N+1 queries.
+     * @return Comment[]
+     */
+    public function findLatestVisible(int $limit = 6): array
+    {
+        return $this->createQueryBuilder('c')
+            ->addSelect('u')
+            ->leftJoin('c.customer', 'u')
+            ->where('c.isHidden = false')
+            ->orderBy('c.createdAt', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * Eagerly loads customer to eliminate N+1 queries on the comments page.
+     * @return Comment[]
+     */
+    public function findAllVisible(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->addSelect('u')
+            ->leftJoin('c.customer', 'u')
+            ->where('c.isHidden = false')
+            ->orderBy('c.createdAt', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Comment[] Returns an array of Comment objects
 //     */

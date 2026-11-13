@@ -29,7 +29,7 @@ class CartController extends AbstractController
             ]);
         }
 
-        $cartItems = $cartRepository->findBy(['customer' => $user]);
+        $cartItems = $cartRepository->findByCustomerWithProduct($user);
         $total = 0.0;
         foreach ($cartItems as $item) {
             $total += ((float) $item->getPrice()) * $item->getQuantity();
@@ -120,7 +120,7 @@ class CartController extends AbstractController
         /** @var Customer $user */
         $user = $this->getUser();
 
-        $cartItems = $cartRepository->findBy(['customer' => $user]);
+        $cartItems = $cartRepository->findByCustomerWithProduct($user);
         if (empty($cartItems)) {
             return $this->redirectToRoute('app_cart');
         }

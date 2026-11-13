@@ -16,6 +16,21 @@ class CartRepository extends ServiceEntityRepository
         parent::__construct($registry, Cart::class);
     }
 
+    /**
+     * Eagerly loads product relations to avoid N+1 queries.
+     * @return Cart[]
+     */
+    public function findByCustomerWithProduct($customer): array
+    {
+        return $this->createQueryBuilder('c')
+            ->addSelect('p')
+            ->leftJoin('c.product', 'p')
+            ->where('c.customer = :customer')
+            ->setParameter('customer', $customer)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Cart[] Returns an array of Cart objects
 //     */

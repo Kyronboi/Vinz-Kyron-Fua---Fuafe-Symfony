@@ -14,7 +14,7 @@ class HomeController extends AbstractController
     public function index(ProductRepository $productRepository, CommentRepository $commentRepository): Response
     {
         $products = $productRepository->findAll();
-        $comments = $commentRepository->findBy(['isHidden' => false], ['createdAt' => 'DESC'], 6);
+        $comments = $commentRepository->findLatestVisible(6);
 
         return $this->render('home/index.html.twig', [
             'products' => $products,

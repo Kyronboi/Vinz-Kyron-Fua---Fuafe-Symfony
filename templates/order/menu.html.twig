@@ -19,7 +19,7 @@
                     <div class="menu-card-lg">
                         <a href="{{ path('app_product_show', {id: product.id}) }}" class="card-link" style="text-decoration:none; color:inherit;">
                             <div class="card-img">
-                                <img src="{{ asset(product.imagePath) }}" alt="{{ product.name }}">
+                                <img src="{{ asset(product.imagePath) }}" alt="{{ product.name }}" loading="lazy">
                             </div>
                             <h3>{{ product.name }}</h3>
                             <p>{{ product.description }}</p>

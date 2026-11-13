@@ -29,13 +29,13 @@ body {
     position: relative;
     width: 100%;
     height: 100vh;
-    /* Background image (replace with your dark coffee shop image) */
+    /* Background image */
     background-image: url('pictures/web-bg.svg');
     background-size: cover;
-    background-position: center;
+    background-position: center top;
     background-color: #2a2a2a; /* Fallback color */
-    /* Slight dark overlay for better text visibility */
-    box-shadow: inset 0 0 200px rgba(0, 0, 0, 0.8);
+    /* Subtle dark overlay for better text contrast without obscuring the top */
+    box-shadow: inset 0 0 80px rgba(0, 0, 0, 0.4);
     overflow: hidden;
 }
 
@@ -44,13 +44,13 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 35px;
+    padding: 10px 35px;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     z-index: 1000;
-    background-color: rgba(0, 0, 0, 0.88);
+    background-color: rgba(15, 10, 8, 0.85);
     box-sizing: border-box;
     backdrop-filter: blur(8px);
 }
@@ -63,8 +63,9 @@ body {
 }
 
 .logo-icon img {
-    width: 50px;
+    width: 44px;
     height: auto;
+    display: block;
 }
 
 /* Remove underlines and default link colors */
@@ -153,7 +154,7 @@ a, a:visited, a:hover, a:active {
     justify-content: space-between;
     height: 100%;
     padding: 0 60px;
-    padding-top: 80px; /* Offset for navbar */
+    padding-top: 68px; /* Offset for sleek fixed navbar */
 }
 
 /* Left Side */
@@ -345,9 +346,6 @@ a, a:visited, a:hover, a:active {
         gap: 14px;
         overflow-x: auto;
         padding-bottom: 4px;
-    }
-    body {
-        padding-top: 110px;
     }
 }
 
@@ -615,7 +613,7 @@ a, a:visited, a:hover, a:active {
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('pictures/Asset 12.svg'); /* Reusing the dark hero background */
+    background-image: url('pictures/web-bg.svg'); /* Reusing the dark hero background */
     background-size: cover;
     background-position: center;
     opacity: 0.6; /* Dark overlay effect */
@@ -853,15 +851,6 @@ a, a:visited, a:hover, a:active {
 }
 
 
-/* Add padding to body so content doesn't hide under fixed header */
-body {
-    padding-top: 80px; /* adjust if header height changes */
-}
-
-/* Only apply to menu page */
-.full-menu-section {
-    padding-top: 80px; /* extra space for fixed header */
-}
 
 
 /* Authentication Section */
