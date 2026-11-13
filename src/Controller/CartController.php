@@ -61,6 +61,11 @@ class CartController extends AbstractController
             throw $this->createNotFoundException('Product not found.');
         }
 
+        if ($product->getStock() !== null && $product->getStock() <= 0) {
+            $this->addFlash('error', sprintf('Sorry, "%s" is currently out of stock.', $product->getName()));
+            return $this->redirectToRoute('app_menu');
+        }
+
         // Determine price from matched size or product base price
         $price = (float) $product->getPrice();
         foreach ($product->getSizes() as $productSize) {
@@ -127,7 +132,17 @@ class CartController extends AbstractController
 
         $total = 0.0;
         foreach ($cartItems as $item) {
-            $total += ((float) $item->getPrice()) * $item->getQuantity();
+            $qty = $item->getQuantity();
+            $total += ((float) $item->getPrice()) * $qty;
+
+            // Deduct stock for the purchased product
+            $product = $item->getProduct();
+            if ($product) {
+                $currentStock = $product->getStock() ?? 0;
+                $newStock = max(0, $currentStock - $qty);
+                $product->setStock($newStock);
+            }
+
             $entityManager->remove($item);
         }
 

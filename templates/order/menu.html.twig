@@ -25,12 +25,18 @@
                             <p>{{ product.description }}</p>
                             <span class="price">₱ {{ product.price|number_format(2) }}</span>
                         </a>
-                        <form action="{{ path('app_cart_add') }}" method="POST" class="add-cart-form" style="padding: 0 20px 20px;">
-                            <input type="hidden" name="product_id" value="{{ product.id }}">
-                            <input type="hidden" name="size" value="Regular">
-                            <input type="hidden" name="price" value="{{ product.price }}">
-                            <button type="submit" class="btn-add-cart">Add to Cart</button>
-                        </form>
+                        {% if product.stock is not null and product.stock <= 0 %}
+                            <div style="padding: 0 20px 20px;">
+                                <button type="button" class="btn-add-cart" disabled style="background: #555; color: #aaa; cursor: not-allowed;">Out of Stock</button>
+                            </div>
+                        {% else %}
+                            <form action="{{ path('app_cart_add') }}" method="POST" class="add-cart-form" style="padding: 0 20px 20px;">
+                                <input type="hidden" name="product_id" value="{{ product.id }}">
+                                <input type="hidden" name="size" value="Regular">
+                                <input type="hidden" name="price" value="{{ product.price }}">
+                                <button type="submit" class="btn-add-cart">Add to Cart</button>
+                            </form>
+                        {% endif %}
                     </div>
                 {% else %}
                     <p style="text-align: center; color: #ccc; grid-column: 1 / -1;">No coffee items currently available.</p>

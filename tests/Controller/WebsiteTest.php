@@ -177,4 +177,57 @@ class WebsiteTest extends WebTestCase
         $client->submit($form);
         $this->assertResponseRedirects('/');
     }
+
+    public function testCheckoutDeductsProductStockAndShowsBackToMenuButton(): void
+    {
+        $client = static::createClient();
+        $em = static::getContainer()->get(EntityManagerInterface::class);
+
+        // Find or create customer
+        $customer = $em->getRepository(Customer::class)->findOneBy(['email' => 'customer@fuafe.com']);
+        $this->assertNotNull($customer);
+
+        // Find product
+        $product = $em->getRepository(Product::class)->findOneBy([]);
+        $this->assertNotNull($product);
+
+        $initialStock = $product->getStock() ?? 30;
+        $product->setStock($initialStock);
+        $em->flush();
+
+        // Login as customer
+        $client->loginUser($customer);
+
+        // Add 2 items of product to cart
+        $client->request('POST', '/cart/add', [
+            'product_id' => $product->getId(),
+            'size' => 'Regular',
+        ]);
+        $this->assertResponseRedirects('/cart');
+        $client->followRedirect();
+
+        // Verify cart page has "Back to Menu" button
+        $this->assertSelectorExists('a[href="/menu"]');
+
+        // Add a second quantity
+        $client->request('POST', '/cart/add', [
+            'product_id' => $product->getId(),
+            'size' => 'Regular',
+        ]);
+        $this->assertResponseRedirects('/cart');
+
+        // Perform checkout
+        $crawler = $client->request('GET', '/checkout');
+        $this->assertResponseIsSuccessful();
+
+        // Verify checkout confirmation contains Back to Menu button
+        $this->assertSelectorExists('.checkout-btn');
+        $this->assertSelectorTextContains('.checkout-btn', 'Back to Menu');
+
+        // Clear EM and re-fetch product to verify stock deduction
+        $em->clear();
+        $refreshedProduct = $em->getRepository(Product::class)->find($product->getId());
+        $this->assertNotNull($refreshedProduct);
+        $this->assertSame($initialStock - 2, $refreshedProduct->getStock(), 'Stock must be decremented by quantity purchased');
+    }
 }

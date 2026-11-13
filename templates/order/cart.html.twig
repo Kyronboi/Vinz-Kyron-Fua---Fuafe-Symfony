@@ -59,9 +59,16 @@
                         {% endfor %}
                     </tbody>
                 </table>
-                <div class="cart-total">
+                <div class="cart-total" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px;">
                     <strong style="font-size: 1.4rem; color: #333;">Total: ₱ {{ total|number_format(2) }}</strong>
-                    <a href="{{ path('app_checkout') }}" class="btn-auth" style="max-width: 250px; text-decoration: none;">Proceed to Checkout</a>
+                    <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                        <a href="{{ path('app_menu') }}" class="btn-auth" style="background: #333; color: #fff; max-width: 200px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                            <i class="fas fa-arrow-left"></i> Back to Menu
+                        </a>
+                        <a href="{{ path('app_checkout') }}" class="btn-auth" style="max-width: 250px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+                            Proceed to Checkout <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
                 </div>
             </div>
         {% endif %}
