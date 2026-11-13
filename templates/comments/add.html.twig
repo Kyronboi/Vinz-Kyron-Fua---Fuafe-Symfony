@@ -13,12 +13,24 @@
 
         <form method="POST" action="{{ path('app_comment_add') }}">
             <label>Your Rating</label>
-            <div class="star-rating-input" style="display: flex; justify-content: center; gap: 12px; margin: 10px 0 20px 0; flex-wrap: wrap;">
-                <label><input type="radio" name="rating" value="5" checked> 5 ★</label>
-                <label><input type="radio" name="rating" value="4"> 4 ★</label>
-                <label><input type="radio" name="rating" value="3"> 3 ★</label>
-                <label><input type="radio" name="rating" value="2"> 2 ★</label>
-                <label><input type="radio" name="rating" value="1"> 1 ★</label>
+            <div class="star-rating-wrapper">
+                <div class="star-rating-input">
+                    <input type="radio" id="star5" name="rating" value="5" checked>
+                    <label for="star5" title="5 stars - Excellent"><i class="fas fa-star"></i></label>
+
+                    <input type="radio" id="star4" name="rating" value="4">
+                    <label for="star4" title="4 stars - Very Good"><i class="fas fa-star"></i></label>
+
+                    <input type="radio" id="star3" name="rating" value="3">
+                    <label for="star3" title="3 stars - Good"><i class="fas fa-star"></i></label>
+
+                    <input type="radio" id="star2" name="rating" value="2">
+                    <label for="star2" title="2 stars - Fair"><i class="fas fa-star"></i></label>
+
+                    <input type="radio" id="star1" name="rating" value="1">
+                    <label for="star1" title="1 star - Poor"><i class="fas fa-star"></i></label>
+                </div>
+                <span id="rating-text" class="star-rating-feedback">5 out of 5 stars (Excellent)</span>
             </div>
             
             <label for="comment">Your Review</label>
@@ -29,4 +41,54 @@
         <p style="margin-top: 15px;"><a href="{{ path('app_comments') }}" style="color: #f8a84a;">← Back to Comments</a></p>
     </div>
 </section>
+{% endblock %}
+
+{% block javascripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const starInputs = document.querySelectorAll('.star-rating-input input[name="rating"]');
+    const starLabels = document.querySelectorAll('.star-rating-input label');
+    const ratingText = document.getElementById('rating-text');
+    const container = document.querySelector('.star-rating-input');
+
+    const descriptions = {
+        '1': '1 out of 5 stars (Poor)',
+        '2': '2 out of 5 stars (Fair)',
+        '3': '3 out of 5 stars (Good)',
+        '4': '4 out of 5 stars (Very Good)',
+        '5': '5 out of 5 stars (Excellent)'
+    };
+
+    function updateText(val) {
+        if (ratingText && descriptions[val]) {
+            ratingText.textContent = descriptions[val];
+        }
+    }
+
+    starInputs.forEach(function (input) {
+        input.addEventListener('change', function () {
+            updateText(this.value);
+        });
+    });
+
+    starLabels.forEach(function (label) {
+        label.addEventListener('mouseenter', function () {
+            const inputId = this.getAttribute('for');
+            const input = document.getElementById(inputId);
+            if (input) {
+                updateText(input.value);
+            }
+        });
+    });
+
+    if (container) {
+        container.addEventListener('mouseleave', function () {
+            const checked = document.querySelector('.star-rating-input input[name="rating"]:checked');
+            if (checked) {
+                updateText(checked.value);
+            }
+        });
+    }
+});
+</script>
 {% endblock %}

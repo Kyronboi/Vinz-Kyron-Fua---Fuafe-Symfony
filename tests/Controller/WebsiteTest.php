@@ -108,8 +108,13 @@ class WebsiteTest extends WebTestCase
         $this->assertSelectorTextContains('.cart-table', 'Espresso');
 
         // Post a review
-        $client->request('GET', '/comments/add');
+        $crawler = $client->request('GET', '/comments/add');
         $this->assertResponseIsSuccessful();
+        $this->assertSelectorExists('.star-rating-wrapper');
+        $this->assertSelectorExists('.star-rating-input input#star5[checked]');
+        $this->assertSelectorExists('.star-rating-input input#star1');
+        $this->assertCount(5, $crawler->filter('.star-rating-input input[type="radio"]'));
+        $this->assertCount(5, $crawler->filter('.star-rating-input label'));
 
         $client->request('POST', '/comments/add', [
             'rating' => 5,

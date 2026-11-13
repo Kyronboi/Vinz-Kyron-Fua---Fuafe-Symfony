@@ -1724,29 +1724,84 @@ a, a:visited, a:hover, a:active {
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
-/* ============ COMMENT STAR RATING (FIXED) ============ */
+/* ============ COMMENT STAR RATING ============ */
+.star-rating-wrapper {
+    text-align: center;
+    margin: 8px 0 20px;
+}
+
 .star-rating-input {
-    display: flex;
-    flex-direction: row-reverse; /* Flips the order so 1 is leftmost, 5 is rightmost */
-    justify-content: flex-end;
-    gap: 5px;
-    margin: 15px 0;
+    display: inline-flex;
+    flex-direction: row-reverse;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin: 0 auto;
 }
 
+.auth-card .star-rating-input input,
 .star-rating-input input {
-    display: none;
+    position: absolute !important;
+    opacity: 0 !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    pointer-events: none !important;
 }
 
+.auth-card .star-rating-input label,
 .star-rating-input label {
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    font-size: 35px;
-    color: #ddd; /* Default grey */
-    transition: color 0.2s;
+    font-size: 34px !important;
+    line-height: 1 !important;
+    color: #d1d5db; /* Default light grey */
+    margin: 0 !important;
+    padding: 4px 6px;
+    transition: color 0.2s ease, transform 0.15s ease;
+    user-select: none;
 }
 
-/* Hover and checked states (highlight stars up to selected) */
-.star-rating-input input:checked ~ label,
+.star-rating-input label:hover {
+    transform: scale(1.18);
+}
+
+/* Checked state: highlights the checked star and all preceding stars (which follow in reverse DOM) */
+.star-rating-input input:checked ~ label {
+    color: #f8a84a;
+    text-shadow: 0 0 10px rgba(248, 168, 74, 0.45);
+}
+
+/* When hovering over the container, temporarily reset stars so checked state doesn't block hover preview */
+.star-rating-input:hover label {
+    color: #d1d5db;
+    text-shadow: none;
+}
+
+/* Hover state: dynamically highlights stars up to the hovered star */
 .star-rating-input label:hover,
 .star-rating-input label:hover ~ label {
-    color: #f8a84a; /* Orange */
+    color: #f5b324 !important;
+    text-shadow: 0 0 12px rgba(245, 179, 36, 0.55) !important;
+}
+
+/* Accessible keyboard focus outline */
+.star-rating-input input:focus-visible + label {
+    outline: 2px solid #f8a84a;
+    outline-offset: 3px;
+    border-radius: 6px;
+}
+
+.star-rating-feedback {
+    display: block;
+    margin-top: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    color: #f8a84a;
+    min-height: 20px;
+    letter-spacing: 0.3px;
 }
